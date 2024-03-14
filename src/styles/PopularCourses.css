@@ -1,0 +1,58 @@
+/* src/styles/PopularCourses.css */
+.popular-courses {
+  padding: 20px;
+  background-color: #fffaf0;
+}
+
+.popular-courses h2 {
+  margin-bottom: 20px;
+  color: #805d36;
+}
+
+/* Style for each slide */
+.course-card {
+  text-align: center;
+  padding: 10px; /* Inner spacing within the card */
+  background-color: white; /* Card background color */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Shadow for depth */
+  border-radius: 4px; /* Rounded corners for the card */
+}
+
+/* Image will fill the width of the card while maintaining its aspect ratio */
+.course-card img {
+  width: 90%; 
+  height: auto;
+}
+
+/* Title beneath the image */
+.course-card h3 {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #805d36;
+}
+
+/* Ensure that the slick arrows are visible */
+.slick-prev:before, .slick-next:before {
+  color: black;
+}
+
+
+/* Responsive adjustments for various viewport sizes */
+@media (max-width: 1200px) {
+  /* Adjust the number of slides to show based on available space */
+  .slick-slider .slick-track .slick-slide {
+    max-width: 180px; /* Adjust the width of each slide at this breakpoint */
+  }
+}
+
+@media (max-width: 768px) {
+  .slick-slider .slick-track .slick-slide {
+    max-width: 150px; /* Adjust the width of each slide at this breakpoint */
+  }
+}
+
+@media (max-width: 480px) {
+  .slick-slider .slick-track .slick-slide {
+    max-width: 120px; /* Adjust the width of each slide at this breakpoint */
+  }
+}
