@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logoImage from "../assets/logo.png";
 
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,41 +12,55 @@ function Navbar() {
       <div className="container flex justify-between h-16 mx-auto">
         <ul className="items-stretch hidden space-x-3 lg:flex">
           <li className="flex">
-            <Link
+            <NavLink
               to="/"
-              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent dark:text-violet-400 dark:border-violet-400"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center px-4 -mb-1 border-b-2 border-[#C9A567] text-[#5C3D2E]"
+                  : "flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
+              }
             >
               Home
-            </Link>
+            </NavLink>
           </li>
           <li className="flex">
-            <a
-              rel="noopener noreferrer"
-              href="#"
-              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
+            <NavLink
+              to="/courses"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center px-4 -mb-1 border-b-2 border-[#C9A567] text-[#5C3D2E]"
+                  : "flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
+              }
             >
               Courses
-            </a>
+            </NavLink>
           </li>
           <li className="flex">
-            <a
-              rel="noopener noreferrer"
-              href="#"
-              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center px-4 -mb-1 border-b-2 border-[#C9A567] text-[#5C3D2E]"
+                  : "flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
+              }
             >
               About
-            </a>
+            </NavLink>
           </li>
           <li className="flex">
-            <a
-              rel="noopener noreferrer"
-              href="#"
-              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
+            <NavLink
+              to="/contact"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center px-4 -mb-1 border-b-2 border-[#C9A567] text-[#5C3D2E]"
+                  : "flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
+              }
             >
               Contact
-            </a>
+            </NavLink>
           </li>
         </ul>
+
         <Link
           to="/"
           aria-label="Back to homepage"
