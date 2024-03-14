@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logoImage from "../assets/logo.png";
-import "../styles/Navbar.css";
+
 import { Link } from "react-router-dom";
 
 function Navbar() {
@@ -11,13 +11,12 @@ function Navbar() {
       <div className="container flex justify-between h-16 mx-auto">
         <ul className="items-stretch hidden space-x-3 lg:flex">
           <li className="flex">
-            <a
-              rel="noopener noreferrer"
-              href="#"
+            <Link
+              to="/"
               className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent dark:text-violet-400 dark:border-violet-400"
             >
               Home
-            </a>
+            </Link>
           </li>
           <li className="flex">
             <a
@@ -47,14 +46,15 @@ function Navbar() {
             </a>
           </li>
         </ul>
-        <a
-          rel="noopener noreferrer"
-          href="#"
+        <Link
+          to="/"
           aria-label="Back to homepage"
           className="flex items-center p-2"
+          rel="noopener noreferrer"
         >
           <img src={logoImage} alt="Logo" className="w-auto h-16 md:h-24" />
-        </a>
+        </Link>
+
         <div className="hidden lg:flex items-center space-x-4">
           <div className="relative">
             <input
@@ -79,17 +79,18 @@ function Navbar() {
             </span>
           </div>
           <Link
-            to="/login" // Changed this line
-            className="px-6 py-2 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900"
+            to="/login"
+            className="px-6 py-2 font-semibold rounded-md text-[#5C3D2E] bg-[#FFF7E0] hover:bg-[#EFE2BA] dark:hover:text-[#C9A567]"
           >
             Log in
           </Link>
-          <button
-            type="button"
-            className="px-6 py-2 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900"
+          {/* Register Button - More emphasized with a bold and vibrant color */}
+          <Link
+            to="/register"
+            className="px-6 py-2 font-semibold rounded-md text-[#5C3D2E] bg-[#D4AF37] hover:bg-[#C9A567] shadow-lg"
           >
             Register
-          </button>
+          </Link>
         </div>
         <button
           className="p-4 lg:hidden"

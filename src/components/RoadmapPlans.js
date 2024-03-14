@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/RoadmapPlans.css"; // Ensure you have this CSS file for styling
+// Ensure you have this CSS file for styling
 
 const RoadmapPlans = () => {
   // Function to handle "Learn More" button click
