@@ -1,7 +1,65 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    terms: false,
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setFormData({ ...formData, [e.target.name]: value });
+  };
+
+  const validateForm = () => {
+    let formErrors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!formData.email) {
+      formErrors.email = "Email is required";
+    } else if (!regex.test(formData.email)) {
+      formErrors.email = "Invalid email format";
+    }
+
+    if (!formData.password) {
+      formErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      formErrors.password = "Password must be more than 6 characters";
+    }
+
+    if (!formData.confirmPassword) {
+      formErrors.confirmPassword = "Confirming password is required";
+    } else if (formData.confirmPassword !== formData.password) {
+      formErrors.confirmPassword = "Passwords must match";
+    }
+
+    if (!formData.terms) {
+      formErrors.terms = "You must agree to the Terms and Conditions";
+    }
+
+    return formErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    setErrors(validationErrors);
+    setIsSubmitting(true);
+
+    if (Object.keys(validationErrors).length === 0 && isSubmitting) {
+      console.log("Form data submitted:", formData);
+      // Proceed with API call
+      // Reset form or redirect user after successful submission
+    }
+  };
+  const navigate = useNavigate();
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#FFF7E0]">
       <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 bg-white dark:bg-[#FFF7E0] dark:text-[#5C3D2E]">
@@ -29,7 +87,7 @@ const RegisterPage = () => {
           <p className="px-3 dark:text-gray-400">OR</p>
           <hr className="w-full dark:text-gray-400" />
         </div>
-        <form novalidate="" action="" className="space-y-8">
+        <form noValidate onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="email" className="block text-sm text-[#5C3D2E]">
@@ -41,8 +99,13 @@ const RegisterPage = () => {
                 id="email"
                 placeholder="email@example.com"
                 className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-[#FFF7E0] dark:text-[#5C3D2E] focus:dark:border-violet-400"
+                value={formData.email}
+                onChange={handleChange}
                 required
               />
+              {errors.email && (
+                <p className="text-red-500 text-xs">{errors.email}</p>
+              )}
             </div>
             <div className="space-y-2">
               <label
@@ -57,36 +120,56 @@ const RegisterPage = () => {
                 id="password"
                 placeholder="Password"
                 className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-[#FFF7E0] dark:text-[#5C3D2E] focus:dark:border-violet-400"
+                value={formData.password}
+                onChange={handleChange}
                 required
               />
+              {errors.password && (
+                <p className="text-red-500 text-xs">{errors.password}</p>
+              )}
             </div>
             <div className="space-y-2">
               <label
-                htmlFor="confirm-password"
+                htmlFor="confirmPassword"
                 className="block text-sm text-[#5C3D2E]"
               >
                 Confirm Password
               </label>
               <input
                 type="password"
-                name="confirm-password"
-                id="confirm-password"
+                name="confirmPassword"
+                id="confirmPassword"
                 placeholder="Confirm Password"
                 className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-[#FFF7E0] dark:text-[#5C3D2E] focus:dark:border-violet-400"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 required
               />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-xs">{errors.confirmPassword}</p>
+              )}
             </div>
             <div className="flex items-start">
               <input
                 type="checkbox"
                 id="terms"
                 name="terms"
+                checked={formData.terms}
+                onChange={handleChange}
                 className="w-4 h-4 mt-1 border rounded dark:border-gray-700 focus:ring-violet-400"
-                required
               />
               <label htmlFor="terms" className="ml-2 text-sm text-[#5C3D2E]">
-                I agree to the Terms and Conditions
+                I agree to the{" "}
+                <span
+                  className="underline cursor-pointer"
+                  onClick={() => navigate("/terms-and-conditions")}
+                >
+                  Terms and Conditions
+                </span>
               </label>
+              {errors.terms && (
+                <p className="text-red-500 text-xs">{errors.terms}</p>
+              )}
             </div>
           </div>
           <button
