@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/userSlice";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -11,9 +13,6 @@ const RegisterPage = () => {
     confirmPassword: "",
     terms: false,
   });
-
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const value =
@@ -56,6 +55,10 @@ const RegisterPage = () => {
 
     return formErrors;
   };
+
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -67,31 +70,31 @@ const RegisterPage = () => {
       setIsSubmitting(true);
 
       try {
-        await axios
-          .post("http://localhost:5000/api/auth/register", {
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/register",
+          {
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
             password: formData.password,
-            // Add more fields as needed
-          })
-          .then((response) => {
-            // Redirect to homepage after successful registration
-            navigate("/");
-          })
-          .catch((error) => {
-            if (error.response && error.response.status === 400) {
-              // Set an error state and display it in your UI
-              setErrors({ ...errors, email: error.response.data.message });
-            }
-          });
+            // Omit confirmPassword in the actual request
+          }
+        );
 
-        // Handle success (e.g., redirect to login page)
-        setIsSubmitting(false);
+        // Assume the response includes user data and token
+        const userData = response.data.user;
+        dispatch(login({ userData })); // Dispatch login action with user data
+        setTimeout(() => {
+          navigate("/");
+          setIsSubmitting(false); // Disable loading state after navigation
+        }, 2000);
       } catch (error) {
         console.error("Registration error:", error.response.data);
-        setIsSubmitting(false);
-        // Handle errors (e.g., show error message)
+        setErrors({
+          ...errors,
+          general: error.response.data.message || "An error occurred",
+        });
+        setIsSubmitting(false); // Disable loading state in case of error
       }
     }
   };
@@ -104,30 +107,13 @@ const RegisterPage = () => {
         <h2 className="mb-3 text-3xl font-semibold text-center text-[#5C3D2E]">
           Register for an account
         </h2>
-        <div className="my-6 space-y-4">
-          <button
-            aria-label="Sign up with Google"
-            type="button"
-            className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:dark:ring-violet-400"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 32 32"
-              className="w-5 h-5 fill-current"
-            >
-              <path d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"></path>
-            </svg>
-            <p>Sign up with Google</p>
-          </button>
-        </div>
-        <div className="flex items-center w-full my-4">
-          <hr className="w-full dark:text-gray-400" />
-          <p className="px-3 dark:text-gray-400">OR</p>
-          <hr className="w-full dark:text-gray-400" />
-        </div>
+
         {isSubmitting ? (
           <div className="flex justify-center items-center">
-            <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-golden"></div>
+            <div
+              className="w-16 h-16 border-4 border-dashed rounded-full animate-spin "
+              style={{ borderColor: "goldenrod transparent" }}
+            ></div>
           </div>
         ) : (
           <form noValidate onSubmit={handleSubmit} className="space-y-8">
@@ -266,10 +252,16 @@ const RegisterPage = () => {
             <button
               type="submit"
               className="w-full px-8 py-3 font-semibold rounded-md bg-[#D4AF37] text-[#1A365D]"
+              disabled={isSubmitting}
             >
               Register
             </button>
           </form>
+        )}
+        {errors.general && (
+          <div className="text-red-500 text-xs text-center mt-2">
+            {errors.general}
+          </div>
         )}
         <p className="mt-4 text-sm text-center text-[#5C3D2E]">
           Already have an account?{" "}

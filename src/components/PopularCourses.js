@@ -5,6 +5,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import bookIcon from "../assets/bookicon.png";
 
+import CourseCard from "./CourseCard";
+import axios from "axios";
+
 function PopularCourses() {
   const courses = [
     { id: 1, title: "Foundations of Islamic Faith", imageUrl: bookIcon },
@@ -69,22 +72,16 @@ function PopularCourses() {
 
   // Inside the render method, update the onClick handler to pass the event as well
   return (
-    <section className="popular-courses">
-      <h2>Popular Courses</h2>
-      <Slider {...settings}>
-        {courses.map((course) => (
-          <div
-            key={course.id}
-            className="course-card"
-            onClick={(e) => handleCardClick(course, e)} // Pass the event to the handler
-            tabIndex={0} // Make the div focusable
-          >
-            <img src={course.imageUrl} alt={course.title} />
-            <h3>{course.title}</h3>
-          </div>
-        ))}
-      </Slider>
-    </section>
+    <Slider {...settings}>
+      {courses.map((course) => (
+        <CourseCard
+          key={course.id}
+          title={course.title}
+          description={course.description}
+          image={course.imageUrl}
+        />
+      ))}
+    </Slider>
   );
 }
 
