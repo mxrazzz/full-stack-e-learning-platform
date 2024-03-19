@@ -1,34 +1,37 @@
 // CourseCard.js
-import * as React from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  CardActionArea,
-} from "@mui/material";
+import React from "react";
 
-const CourseCard = ({ title, description, image }) => {
+const CourseCard = ({ title, description, image, onCourseStart }) => {
+  const imagePath = `/images/${image}`;
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia component="img" height="140" image={image} alt={title} />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <div style={{ textAlign: "center", marginBottom: "10px" }}>
-        <Button variant="contained" color="primary">
+    <div
+      className="flex flex-col rounded-md shadow-md bg-[#C9A567] m-2"
+      style={{ width: "300px", height: "350px" }}
+    >
+      {" "}
+      {/* Fixed size but you can adjust */}
+      <img
+        src={imagePath}
+        alt="Course"
+        style={{ height: "150px", objectFit: "cover" }} // Adjust height as needed
+      />
+      <div
+        className="flex flex-col p-4 justify-between"
+        style={{ flexGrow: 1 }}
+      >
+        <div>
+          <h3 className="text-lg font-semibold text-white">{title}</h3>
+          <p className="text-white text-sm mt-2">{description}</p>
+        </div>
+        <button
+          className="py-2 px-4 bg-white text-[#C9A567] font-semibold rounded self-center mt-2"
+          onClick={onCourseStart}
+        >
           Start Course
-        </Button>
+        </button>
       </div>
-    </Card>
+    </div>
   );
 };
 

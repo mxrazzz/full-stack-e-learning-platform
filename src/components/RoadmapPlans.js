@@ -1,11 +1,42 @@
-import React from "react";
-// Ensure you have this CSS file for styling
+import { React, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import AuthModal from "./AuthModal";
 
 const RoadmapPlans = () => {
-  // Function to handle "Learn More" button click
-  const handleLearnMore = (planId) => {
-    console.log(`Learn more about: ${planId}`);
-    // Here, implement navigation to plan details or a modal popup
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.defaults.withCredentials = true;
+  }, []);
+
+  const handleEnroll = async (planId) => {
+    if (!isAuthenticated) {
+      openModal();
+      return;
+    }
+
+    try {
+      await axios.post("/api/enroll", { planId }, { withCredentials: true });
+      alert(`Successfully enrolled in ${planId} plan.`);
+      navigate("/dashboard");
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert("You are already enrolled in this plan.");
+        console.log("Already enrolled");
+      } else if (error.response && error.response.status === 401) {
+        alert("You need to login to enroll in a plan.");
+      } else {
+        console.error("Enrollment failed", error);
+        alert("An error occurred while trying to enroll. Please try again.");
+      }
+    }
   };
 
   return (
@@ -39,10 +70,10 @@ const RoadmapPlans = () => {
               </li>
             </ul>
             <button
-              onClick={() => handleLearnMore("explorer")}
+              onClick={() => handleEnroll("explorer")}
               className="mt-4 px-4 py-2 text-lg font-semibold uppercase border rounded-lg bg-[#F3D677] text-[#5D5D5A] border-[#E6C300] hover:bg-[#F2E1A1] hover:text-[#5D5D5A]"
             >
-              Learn More
+              Enroll now
             </button>
           </div>
 
@@ -58,10 +89,10 @@ const RoadmapPlans = () => {
               <li className="text-md text-[#5D5D5A]">Community Integration</li>
             </ul>
             <button
-              onClick={() => handleLearnMore("revert")}
+              onClick={() => handleEnroll("revert")}
               className="mt-4 px-4 py-2 text-lg font-semibold uppercase border rounded-lg bg-[#F3D677] text-[#5D5D5A] border-[#E6C300] hover:bg-[#F2E1A1] hover:text-[#5D5D5A]"
             >
-              Learn More
+              Enroll now
             </button>
           </div>
 
@@ -83,14 +114,15 @@ const RoadmapPlans = () => {
               </li>
             </ul>
             <button
-              onClick={() => handleLearnMore("existing")}
+              onClick={() => handleEnroll("existing")}
               className="mt-4 px-4 py-2 text-lg font-semibold uppercase border rounded-lg bg-[#F3D677] text-[#5D5D5A] border-[#E6C300] hover:bg-[#F2E1A1] hover:text-[#5D5D5A]"
             >
-              Learn More
+              Enroll now
             </button>
           </div>
         </div>
       </div>
+      <AuthModal isOpen={isModalOpen} onClose={closeModal} />
     </section>
   );
 };

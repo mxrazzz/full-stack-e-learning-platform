@@ -17,10 +17,18 @@ const HeroSection = () => {
             Welcome to
             <span className="text-[#C9A567]"> Path To Islam </span>
           </h1>
-          <p className="mt-6 mb-8 text-lg sm:mb-12">
-            We make learning about Islam simple
+          <div className="mt-6 mb-8 text-lg sm:mb-12">
+            <p>
+              A fully comprehensive islamic site, aimed at making learning
+              simple.
+            </p>
+            <p>
+              We offer not only 100% free online learning modules, but a variety
+              of other tools to make life easy.
+            </p>
             <br className="hidden md:inline lg:hidden" />
-          </p>
+          </div>
+
           <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
             <a
               rel="noopener noreferrer"
