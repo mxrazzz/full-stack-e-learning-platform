@@ -7,27 +7,6 @@ import CourseCard from "./CourseCard";
 import AuthModal from "./AuthModal";
 import axios from "axios";
 
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "gold" }}
-      onClick={onClick}
-    />
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "gold" }}
-      onClick={onClick}
-    />
-  );
-}
 function PopularCourses() {
   const courses = [
     { id: 1, title: "Foundations of Islamic Faith", image: "bookicon.png" },
@@ -64,8 +43,7 @@ function PopularCourses() {
     slidesToScroll: 2,
     autoplay: true,
     autoplaySpeed: 3000,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+
     responsive: [
       {
         breakpoint: 1280, // Adjusted breakpoint for larger screens

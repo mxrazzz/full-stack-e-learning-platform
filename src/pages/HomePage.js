@@ -1,8 +1,8 @@
 import React from "react";
 import HeroSection from "../components/HeroSection";
 import PopularCourses from "../components/PopularCourses";
-import TopCategories from "../components/TopCategories";
 import RoadmapPlans from "../components/RoadmapPlans";
+import TopArticles from "../components/TopArticles";
 
 function HomePage() {
   return (
@@ -10,7 +10,7 @@ function HomePage() {
       <HeroSection />
       <RoadmapPlans />
       <PopularCourses />
-      <TopCategories />
+      <TopArticles />
     </div>
   );
 }

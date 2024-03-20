@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import explorerPlanImage from "../assets/explorerPlan.jpg";
-import revertPlanImage from "../assets/revertPlan.jpg";
-import existingPlanImage from "../assets/existingPlan.jpg";
-
 const Dashboard = () => {
   const [enrolledPlans, setEnrolledPlans] = useState([]);
   const navigate = useNavigate();
@@ -29,17 +25,17 @@ const Dashboard = () => {
     explorer: {
       name: "Explorer Plan",
       description: "Begin your journey with the basics of Islam.",
-      imageUrl: explorerPlanImage,
+      imageUrl: "images/explorerPlan.jpg",
     },
     revert: {
       name: "Revert Plan",
       description: "Strengthen your new faith with foundational knowledge.",
-      imageUrl: revertPlanImage,
+      imageUrl: "images/revertPlan.jpg",
     },
     existing: {
       name: "Existing Muslim Plan",
       description: "Deepen your understanding and practice of Islam.",
-      imageUrl: existingPlanImage,
+      imageUrl: "images/existingPlan.jpg",
     },
   };
 
