@@ -90,7 +90,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="space-y-3">
-            <h3 className="uppercase text-[#C9A567]">Developers</h3>
+            <h3 className="uppercase text-[#C9A567]">Get to know</h3>
             <ul className="space-y-1">
               <li>
                 <a
@@ -98,7 +98,7 @@ const Footer = () => {
                   href="#"
                   className="text-[#5C3D2E] hover:text-[#C9A567]"
                 >
-                  Public API
+                  About
                 </a>
               </li>
               <li>
@@ -107,7 +107,7 @@ const Footer = () => {
                   href="#"
                   className="text-[#5C3D2E] hover:text-[#C9A567]"
                 >
-                  Documentation
+                  Contact
                 </a>
               </li>
               <li>

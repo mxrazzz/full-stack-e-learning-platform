@@ -8,7 +8,9 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Footer from "./components/Footer";
 import Dashboard from "./pages/Dashboard";
-import PlanPage from "./pages/PlanPage";
+import ExplorerPlan from "./plans/ExplorerPlan";
+import RevertPlan from "./plans/RevertPlan";
+import ExistingMuslimPlan from "./plans/ExistingMuslimPlan";
 
 function App() {
   return (
@@ -21,7 +23,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/plan/:planId" element={<PlanPage />} />
+        <Route path="/plans/explorer" element={<ExplorerPlan />} />
+        <Route path="/plans/revert" element={<RevertPlan />} />
+        <Route path="/plans/existing" element={<ExistingMuslimPlan />} />
       </Routes>
       <Footer />
     </Router>

@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import CourseCard from "./CourseCard"; // Adjust import path as needed
+import CourseCard from "../components/CourseCard"; // Adjust import path as needed
 
 const ExplorerPlan = () => {
   const essentialsOfIslamCourses = [

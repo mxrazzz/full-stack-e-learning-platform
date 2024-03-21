@@ -56,7 +56,7 @@ const Dashboard = () => {
                   planDetails[planId]?.imageUrl ||
                   "https://source.unsplash.com/random/300x300/?islamic"
                 }
-                alt="Plan Image"
+                alt="Plans"
                 className="object-cover object-center w-full h-48"
               />
               <div className="flex flex-col flex-1 p-4 justify-between">
