@@ -1,31 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import CourseCard from "../components/CourseCard"; // Adjust import path as needed
+import CourseCard from "../components/CourseCard";
 
 const ExplorerPlan = () => {
-  const essentialsOfIslamCourses = [
-    // Example courses for "Essentials of Islam"
-    { id: 1, title: "Five Pillars of Islam", progress: 50 },
-    { id: 2, title: "Prophet Muhammad (PBUH)", progress: 20 },
-    // Add more courses
+  const [modules, setModules] = useState([]);
+
+  useEffect(() => {
+    const fetchModules = async () => {
+      try {
+        const response = await axios.get("http://localhost:1337/api/modules");
+        setModules(response.data.data); // Adjust based on your actual API response structure
+      } catch (error) {
+        console.error("Failed to fetch modules:", error);
+      }
+    };
+
+    fetchModules();
+  }, []);
+
+  const categories = [
+    { key: "EssentialsOfIslam", label: "Essentials of Islam" },
+    { key: "AddressingMisconceptions", label: "Addressing Misconceptions" },
+    { key: "IslamVsOthers", label: "Islam vs. Others" },
+    { key: "ProofsForIslam", label: "Proofs For Islam" },
   ];
 
-  const commonMisconceptionsCourses = [
-    // Example courses for "Common Misconceptions"
-    { id: 1, title: "Misconception 1", progress: 75 },
-    { id: 2, title: "Misconception 2", progress: 30 },
-    // Add more courses
-  ];
+  const filterModulesByCategory = (category) =>
+    modules.filter((module) => module.attributes.Category === category);
 
-  // Slider settings (shared between both sliders)
   const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    // Start with 1 and let variableWidth adjust as needed
+    slidesToScroll: 1,
+    variableWidth: true,
   };
 
   return (
@@ -33,32 +42,21 @@ const ExplorerPlan = () => {
       <h2 className="text-2xl font-semibold text-[#5C3D2E] mb-4">
         Explorer Plan
       </h2>
-
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-4">Essentials of Islam</h3>
-        <Slider {...settings}>
-          {essentialsOfIslamCourses.map((course) => (
-            <CourseCard
-              key={course.id}
-              title={course.title}
-              progress={course.progress}
-            />
-          ))}
-        </Slider>
-      </div>
-
-      <div>
-        <h3 className="text-xl font-semibold mb-4">Common Misconceptions</h3>
-        <Slider {...settings}>
-          {commonMisconceptionsCourses.map((course) => (
-            <CourseCard
-              key={course.id}
-              title={course.title}
-              progress={course.progress}
-            />
-          ))}
-        </Slider>
-      </div>
+      {categories.map((category) => (
+        <div key={category.key} className="mb-8">
+          <h3 className="text-xl font-semibold mb-4">{category.label}</h3>
+          <Slider {...settings}>
+            {filterModulesByCategory(category.key).map((module) => (
+              <CourseCard
+                key={module.id}
+                title={module.attributes.Title} // Note the capitalization
+                description={module.attributes.description} // Assuming this matches your structure
+                // You need to adjust the image path if your API provides a direct URL or relative path
+              />
+            ))}
+          </Slider>
+        </div>
+      ))}
     </div>
   );
 };
