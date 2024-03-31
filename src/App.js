@@ -9,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Footer from "./components/Footer";
 import Dashboard from "./pages/Dashboard";
 import ExplorerPlan from "./plans/ExplorerPlan";
+import CourseContent from "./plans/CourseContent";
 /*import RevertPlan from "./plans/RevertPlan";
 import ExistingMuslimPlan from "./plans/ExistingMuslimPlan";
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/plans/explorer" element={<ExplorerPlan />} />
+        <Route path="/course-content/:moduleId" element={<CourseContent />} />
       </Routes>
       <Footer />
     </Router>

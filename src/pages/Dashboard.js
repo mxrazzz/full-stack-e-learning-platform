@@ -33,7 +33,7 @@ const Dashboard = () => {
       imageUrl: "images/revertPlan.jpg",
     },
     existing: {
-      name: "Existing Muslim Plan",
+      name: "Next Steps Plan",
       description: "Deepen your understanding and practice of Islam.",
       imageUrl: "images/existingPlan.jpg",
     },

@@ -1,9 +1,7 @@
 // CourseCard.js
 import React from "react";
 
-const CourseCard = ({ title, description, image, onCourseStart }) => {
-  const imagePath = `/images/${image}`;
-
+const CourseCard = ({ title, description, image, onLearnMore }) => {
   return (
     <div
       className="flex flex-col rounded-md shadow-md bg-[#C9A567] m-2"
@@ -12,7 +10,7 @@ const CourseCard = ({ title, description, image, onCourseStart }) => {
       {" "}
       {/* Fixed size but you can adjust */}
       <img
-        src={imagePath}
+        src={image}
         alt="Course"
         style={{ height: "150px", objectFit: "cover" }} // Adjust height as needed
       />
@@ -26,9 +24,9 @@ const CourseCard = ({ title, description, image, onCourseStart }) => {
         </div>
         <button
           className="py-2 px-4 bg-white text-[#C9A567] font-semibold rounded self-center mt-2"
-          onClick={onCourseStart}
+          onClick={onLearnMore}
         >
-          Start Course
+          Learn More
         </button>
       </div>
     </div>

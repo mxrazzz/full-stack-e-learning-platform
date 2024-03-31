@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CourseCard from "./CourseCardPlan"; // Adjust the import path as necessary
 import logoImage from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   { key: "EssentialsOfIslam", label: "Essentials of Islam" },
@@ -15,7 +16,7 @@ const categories = [
 
 const ExplorerPlan = () => {
   const [modules, setModules] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchModules = async () => {
       try {
@@ -25,7 +26,7 @@ const ExplorerPlan = () => {
         const modulesWithImages = response.data.data.map((module) => {
           const imageUrl = module.attributes.Image.data
             ? `http://localhost:1337${module.attributes.Image.data[0].attributes.url}`
-            : undefined;
+            : logoImage;
           return { ...module, imageUrl };
         });
         setModules(modulesWithImages);
@@ -73,6 +74,7 @@ const ExplorerPlan = () => {
           {filteredModules.map((module) => (
             <CourseCard
               key={module.id}
+              id={module.id}
               title={module.attributes.Title}
               description={module.attributes.description}
               image={module.imageUrl}

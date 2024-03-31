@@ -84,9 +84,15 @@ const RoadmapPlans = () => {
             </span>
             <p className="my-6 text-4xl font-bold text-[#1A365D]">FREE</p>
             <ul className="flex-1 space-y-3">
-              <li className="text-md text-[#5D5D5A]">Deepening Faith</li>
-              <li className="text-md text-[#5D5D5A]">Prayer and Worship</li>
-              <li className="text-md text-[#5D5D5A]">Community Integration</li>
+              <li className="text-md text-[#5D5D5A]">
+                Perfect for new Reverts
+              </li>
+              <li className="text-md text-[#5D5D5A]">
+                Learning how to pray, make wudhu etc.
+              </li>
+              <li className="text-md text-[#5D5D5A]">
+                Problems & Solutions as a Revert
+              </li>
             </ul>
             <button
               onClick={() => handleEnroll("revert")}
@@ -99,7 +105,7 @@ const RoadmapPlans = () => {
           {/* Existing Muslim Plan */}
           <div className="relative flex flex-col items-center p-8 border rounded-md bg-[#FAF0D7] border-[#E6C300]">
             <span className="absolute top-0 px-6 pt-1 pb-2 font-medium text-lg rounded-b-lg bg-[#1A365D] text-[#FFFAF0]">
-              Existing Muslim Plan
+              Next Steps Plan
             </span>
             <p className="my-6 text-4xl font-bold text-[#1A365D]">FREE</p>
             <ul className="flex-1 space-y-3">
