@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import DOMPurify from "dompurify";
 
@@ -8,6 +8,7 @@ const CourseContent = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [pages, setPages] = useState([]);
   const { moduleId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (moduleId) {
@@ -84,10 +85,45 @@ const CourseContent = () => {
       }
     });
   };
+  const handleNextPage = () => {
+    if (currentPageIndex < pages.length - 1) {
+      const newPageIndex = currentPageIndex + 1;
+      setCurrentPageIndex(newPageIndex);
+
+      // Calculate progress
+      const progress = ((newPageIndex + 1) / pages.length) * 100;
+      updateProgress(progress);
+    }
+  };
+
+  const updateProgress = async (progress) => {
+    // moduleId is obtained from useParams() at the start of your component
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/progress/update",
+        {
+          moduleId: moduleId, // Ensure this is the Strapi module ID
+          progress: progress,
+          completed: progress >= 100,
+        },
+        { withCredentials: true }
+      ); // Adjust as necessary for auth
+
+      console.log("Progress update response:", response.data);
+    } catch (error) {
+      console.error("Progress update error:", error);
+    }
+  };
+
+  const completeCourse = () => {
+    updateProgress(100); // Ensure progress is set to 100%
+    // Optionally, send a completion confirmation to your backend here
+    navigate("/dashboard"); // Redirect user to the dashboard, adjust the path as needed
+  };
 
   return (
-    <div className="flex">
-      <div className="w-1/4 bg-gray-800 text-white p-4">
+    <div className="flex flex-col md:flex-row">
+      <div className="md:w-1/4 bg-gray-800 text-white p-4">
         <h2 className="text-lg font-semibold border-b border-gray-600 pb-2">
           Pages
         </h2>
@@ -105,26 +141,38 @@ const CourseContent = () => {
           ))}
         </ul>
       </div>
-      <div className="flex-1 p-4">
-        {pages[currentPageIndex] && renderPageContent(pages[currentPageIndex])}
-      </div>
-      <div className="flex-1 flex justify-center items-end py-4">
-        {currentPageIndex > 0 && (
-          <button
-            onClick={() => setCurrentPageIndex(currentPageIndex - 1)}
-            className="px-6 py-2 font-semibold rounded-md text-white bg-gray-800 hover:bg-gray-700 mr-4"
-          >
-            Previous
-          </button>
-        )}
-        {currentPageIndex < pages.length - 1 && (
-          <button
-            onClick={() => setCurrentPageIndex(currentPageIndex + 1)}
-            className="px-6 py-2 font-semibold rounded-md text-white bg-gray-800 hover:bg-gray-700 mr-4"
-          >
-            Next
-          </button>
-        )}
+      <div className="flex flex-1 flex-col">
+        <div className="p-4">
+          {pages[currentPageIndex] &&
+            renderPageContent(pages[currentPageIndex])}
+        </div>
+        <div className="mt-auto">
+          <div className="flex justify-center items-end py-4 space-x-4 mr-8">
+            {currentPageIndex > 0 && (
+              <button
+                onClick={() => setCurrentPageIndex(currentPageIndex - 1)}
+                className="px-4 py-2 font-semibold rounded-md text-white bg-gray-800 hover:bg-gray-700"
+              >
+                Previous
+              </button>
+            )}
+            {currentPageIndex < pages.length - 1 ? (
+              <button
+                onClick={handleNextPage}
+                className="px-4 py-2 font-semibold rounded-md text-white bg-gray-800 hover:bg-gray-700"
+              >
+                Next
+              </button>
+            ) : currentPageIndex === pages.length - 1 ? (
+              <button
+                onClick={completeCourse}
+                className="px-4 py-2 font-semibold rounded-md text-white bg-green-500 hover:bg-green-700"
+              >
+                Complete Course
+              </button>
+            ) : null}
+          </div>
+        </div>
       </div>
     </div>
   );
