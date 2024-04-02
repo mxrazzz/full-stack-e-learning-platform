@@ -16,6 +16,7 @@ const categories = [
 
 const ExplorerPlan = () => {
   const [modules, setModules] = useState([]);
+  const [userProgress, setUserProgress] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
     const fetchModules = async () => {
@@ -35,7 +36,25 @@ const ExplorerPlan = () => {
       }
     };
 
+    const fetchUserProgress = async () => {
+      try {
+        const { data: progressData } = await axios.get(
+          "http://localhost:5000/api/user/progress",
+          { withCredentials: true }
+        );
+        // Convert progressData array to an object for easier access
+        const progressMap = progressData.reduce((acc, cur) => {
+          acc[cur.moduleId] = cur; // Assuming cur.moduleId is the module's ID
+          return acc;
+        }, {});
+        setUserProgress(progressMap);
+      } catch (error) {
+        console.error("Failed to fetch user progress:", error);
+      }
+    };
+
     fetchModules();
+    fetchUserProgress();
   }, []);
 
   const renderSliderForCategory = (categoryKey, label) => {
@@ -78,6 +97,7 @@ const ExplorerPlan = () => {
               title={module.attributes.Title}
               description={module.attributes.description}
               image={module.imageUrl}
+              progress={userProgress[module.id]?.progress}
             />
           ))}
         </Slider>
@@ -90,7 +110,9 @@ const ExplorerPlan = () => {
       <h2 className="text-2xl font-semibold text-[#5C3D2E] mb-4">
         Explorer Plan
       </h2>
-      {categories.map(({ key, label }) => renderSliderForCategory(key, label))}
+      {categories.map(({ key, label }) =>
+        renderSliderForCategory(key, label, userProgress)
+      )}
     </div>
   );
 };

@@ -37,18 +37,7 @@ function Navbar() {
                 Home
               </NavLink>
             </li>
-            <li className="flex">
-              <NavLink
-                to="/courses"
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex items-center px-4 -mb-1 border-b-2 border-[#C9A567] text-gray-100"
-                    : "flex items-center px-4 -mb-1 border-b-2 dark:border-transparent text-gray-100 hover:text-[#C9A567]"
-                }
-              >
-                Courses
-              </NavLink>
-            </li>
+
             <li className="flex">
               <NavLink
                 to="/about"
@@ -59,6 +48,18 @@ function Navbar() {
                 }
               >
                 About
+              </NavLink>
+            </li>
+            <li className="flex">
+              <NavLink
+                to="/tools"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center px-4 -mb-1 border-b-2 border-[#C9A567] text-gray-100"
+                    : "flex items-center px-4 -mb-1 border-b-2 dark:border-transparent text-gray-100 hover:text-[#C9A567]"
+                }
+              >
+                Tools
               </NavLink>
             </li>
             <li className="flex">

@@ -60,17 +60,18 @@ const Sidebar = ({ isOpen, toggleSidebar, isAuthenticated }) => {
             >
               Home
             </Link>
-            <Link
-              to="/courses"
-              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Courses
-            </Link>
+
             <Link
               to="/about"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               About
+            </Link>
+            <Link
+              to="/tools"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Tools
             </Link>
             <Link
               to="/contact"

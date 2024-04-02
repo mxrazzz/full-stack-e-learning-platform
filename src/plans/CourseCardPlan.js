@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const CourseCardPlan = ({ id, title, description, image }) => {
+const CourseCardPlan = ({ id, title, description, image, progress }) => {
   const navigate = useNavigate();
 
   const startCourse = () => {
@@ -30,6 +30,16 @@ const CourseCardPlan = ({ id, title, description, image }) => {
           Start Course
         </button>
       </div>
+      {typeof progress === "number" && (
+        <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-2">
+          <div
+            className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+            style={{ width: `${Math.round(progress)}%` }} // Round progress to nearest whole number
+          >
+            {Math.round(progress)}% {/* Display rounded progress */}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
