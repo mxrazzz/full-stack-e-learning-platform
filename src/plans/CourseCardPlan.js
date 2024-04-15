@@ -31,9 +31,14 @@ const CourseCardPlan = ({ id, title, description, image, progress }) => {
         </button>
       </div>
       {typeof progress === "number" && (
-        <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-2">
+        <div
+          className="w-full rounded-full mt-2"
+          style={{ backgroundColor: "#f5f5dc" }}
+        >
+          {" "}
+          {/* Adjusted to cream color */}
           <div
-            className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+            className="bg-[#D4AF37] text-xs font-medium text-[#5C3D2E] text-center p-0.5 leading-none rounded-full" // Gold shade for progress, adjusted text color for better contrast
             style={{ width: `${Math.round(progress)}%` }} // Round progress to nearest whole number
           >
             {Math.round(progress)}% {/* Display rounded progress */}

@@ -2,23 +2,47 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import Slider from "react-slick"; // Make sure to import Slider from react-slick
+import "slick-carousel/slick/slick.css"; // Default styling
+import "slick-carousel/slick/slick-theme.css"; // Default theming
+import CourseCard from "../plans/CourseCardPlan";
+
 const Dashboard = () => {
   const [enrolledPlans, setEnrolledPlans] = useState([]);
+  const [recentCourses, setRecentCourses] = useState([]); // State for storing recent courses
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEnrolledPlans = async () => {
       try {
-        // Adjust this URL to match your actual API endpoint
-        const response = await axios.get("/api/user-plans", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://localhost:5000/api/user-plans",
+          {
+            withCredentials: true,
+          }
+        );
         setEnrolledPlans(response.data.enrolledPlans);
       } catch (error) {
         console.error("Failed to fetch enrolled plans", error);
       }
     };
+
+    const fetchRecentCourses = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:5000/api/user/recent-modules",
+          {
+            withCredentials: true,
+          }
+        );
+        setRecentCourses(data);
+      } catch (error) {
+        console.error("Failed to fetch recent courses", error);
+      }
+    };
+
     fetchEnrolledPlans();
+    fetchRecentCourses();
   }, []);
 
   const planDetails = {
@@ -37,6 +61,33 @@ const Dashboard = () => {
       description: "Deepen your understanding and practice of Islam.",
       imageUrl: "images/existingPlan.jpg",
     },
+  };
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -77,6 +128,22 @@ const Dashboard = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+      {recentCourses.length > 0 && (
+        <div className="mt-8">
+          <h3 className="text-2xl font-semibold text-[#5C3D2E] mb-4">
+            Recent Courses
+          </h3>
+          <Slider {...sliderSettings}>
+            {recentCourses.map((course) => (
+              <CourseCard
+                key={course.id}
+                {...course}
+                onClick={() => navigate(`/course/${course.id}`)}
+              />
+            ))}
+          </Slider>
         </div>
       )}
     </div>

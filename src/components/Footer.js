@@ -173,7 +173,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="py-6 text-sm text-center dark:text-[#5C3D2E]">
-        © 2023 Path to Islam. All rights reserved.
+        © 2024 Path to Islam. All rights reserved.
       </div>
     </footer>
   );

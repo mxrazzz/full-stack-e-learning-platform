@@ -145,7 +145,7 @@ function Navbar() {
                       Dashboard
                     </Link>
                     <Link
-                      to="/profile"
+                      to="/view-profile"
                       className="group flex items-center px-2 py-2 text-base font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700"
                     >
                       <svg

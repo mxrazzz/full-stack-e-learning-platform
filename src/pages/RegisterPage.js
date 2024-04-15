@@ -68,26 +68,16 @@ const RegisterPage = () => {
 
     if (Object.keys(validationErrors).length === 0 && !isSubmitting) {
       setIsSubmitting(true);
-
       try {
-        const response = await axios.post(
-          "http://localhost:5000/api/auth/register",
-          {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            password: formData.password,
-            // Omit confirmPassword in the actual request
-          }
-        );
+        // Send the registration data to the server
+        await axios.post("http://localhost:5000/api/auth/register", {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        });
 
-        // Assume the response includes user data and token
-        const userData = response.data.user;
-        dispatch(login({ userData })); // Dispatch login action with user data
-        setTimeout(() => {
-          navigate("/");
-          setIsSubmitting(false); // Disable loading state after navigation
-        }, 2000);
+        navigate("/verify-registration", { state: { email: formData.email } });
       } catch (error) {
         console.error("Registration error:", error.response.data);
         setErrors({
