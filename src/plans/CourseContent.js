@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { showNotification } from "../redux/notificationSlice";
 import DOMPurify from "dompurify";
 
 const CourseContent = () => {
@@ -9,6 +10,7 @@ const CourseContent = () => {
   const [pages, setPages] = useState([]);
   const { moduleId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (moduleId) {
@@ -117,7 +119,11 @@ const CourseContent = () => {
 
   const completeCourse = () => {
     updateProgress(100); // Ensure progress is set to 100%
-    // Optionally, send a completion confirmation to your backend here
+    dispatch(
+      showNotification({
+        message: "Congrats for completing this module, 50XP added!",
+      })
+    );
     navigate("/dashboard"); // Redirect user to the dashboard, adjust the path as needed
   };
 

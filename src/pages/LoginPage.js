@@ -36,7 +36,7 @@ const LoginPage = () => {
       setTimeout(() => {
         navigate("/");
         setIsSubmitting(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error("Login error:", error.response.data);
       setErrors({ ...errors, general: "Invalid login credentials" });
@@ -51,7 +51,7 @@ const LoginPage = () => {
           Login to your account
         </h2>
         <p className="text-sm text-center text-[#5C3D2E]">
-          Don't have an account?
+          Don't have an account?{" "}
           <Link
             to="/register"
             className="focus:underline hover:underline text-[#C9A567]"

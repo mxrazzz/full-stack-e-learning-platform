@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../redux/notificationSlice";
 
 const RegistrationVerificationPage = () => {
   const [otp, setOtp] = useState(Array(4).fill(""));
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const { email } = location.state;
   const [countdown, setCountdown] = useState(5); // Countdown for code resend
@@ -64,12 +67,12 @@ const RegistrationVerificationPage = () => {
     const verificationCode = otp.join("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/verify-email",
-        {
-          email,
-          verificationCode,
-        }
+      await axios.post("http://localhost:5000/api/auth/verify-email", {
+        email,
+        verificationCode,
+      });
+      dispatch(
+        showNotification({ message: "Registration successful! You may login" })
       );
       navigate("/login");
     } catch (error) {

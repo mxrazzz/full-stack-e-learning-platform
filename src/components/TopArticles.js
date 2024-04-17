@@ -4,20 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 const articles = [
   {
-    id: 1,
+    id: 5,
     title: "Ramadan 2024",
     summary: "An overview of Ramadan, the holy month for the Muslims",
     imageUrl: "/images/ramadan-article.jpg",
   },
   {
-    id: 2,
+    id: 6,
     title: "5 Profound Characteristics of our Prophet ﷺ ",
     summary:
       "Learn about the great character of Muhammad ﷺ & how to implement it in your life",
     imageUrl: "/images/muhammad-article.jpg",
   },
   {
-    id: 3,
+    id: 7,
     title: "Why Islam?",
     summary:
       "Here we will talk about reasons why people choose to embrace Islam and leave behind old lifestyles",

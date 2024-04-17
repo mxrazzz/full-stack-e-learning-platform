@@ -1,5 +1,5 @@
 // App.js
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { hideNotification } from "./redux/notificationSlice"; // Ensure correct import paths
 
 // Lazy loaded pages
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -19,19 +20,19 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const ExplorerPlan = lazy(() => import("./plans/ExplorerPlan"));
+const RevertPlan = lazy(() => import("./plans/RevertPlan"));
 const CourseContent = lazy(() => import("./plans/CourseContent"));
 const Articles = lazy(() => import("./pages/Articles"));
+const ArticleContent = lazy(() => import("./pages/ArticleContent"));
+const Tools = lazy(() => import("./pages/Tools"));
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const VerificationCodePage = lazy(() => import("./pages/VerificationCodePage"));
 const RegistrationVerificationPage = lazy(() =>
   import("./pages/RegistrationVerificationPage")
 );
-// At the top with other imports
 const ViewProfile = lazy(() => import("./components/ViewProfile")); // Adjust the path as necessary
 
-// Placeholder components for plans (commented in the original file)
-// const RevertPlan = lazy(() => import("./plans/RevertPlan"));
 // const ExistingMuslimPlan = lazy(() => import("./plans/ExistingMuslimPlan"));
 
 const NotFoundPage = () => (
@@ -58,6 +59,39 @@ const NotFoundPage = () => (
   </section>
 );
 
+//Notification functions
+
+const GlobalNotification = () => {
+  const notification = useSelector((state) => state.notification);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (notification.visible) {
+      const timer = setTimeout(() => {
+        dispatch(hideNotification());
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification.visible, dispatch]);
+  if (!notification.visible) return null;
+
+  return (
+    <div className="fixed top-16 right-4 z-50 max-w-xl px-4 py-2 border-l-4 border-[#C9A567] rounded-lg shadow-md overflow-hidden divide-x divide-gray-300 bg-[#FFF7E0] text-[#5C3D2E] animate-slide-in">
+      <div className="flex justify-between items-center w-full">
+        <div className="flex flex-1 flex-col p-2">
+          <span className="text-sm">{notification.message}</span>
+        </div>
+        <button
+          className="px-2 flex items-center text-sm uppercase tracking-wide"
+          onClick={() => dispatch(hideNotification())}
+        >
+          Dismiss
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -72,6 +106,7 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   return (
     <Router>
+      <GlobalNotification />
       <Suspense fallback={<div>Loading...</div>}>
         <Navbar />
         <Routes>
@@ -81,6 +116,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:id" element={<ArticleContent />} />
+          <Route path="/tools" element={<Tools />} />
+
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/verification-code" element={<VerificationCodePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
@@ -109,6 +147,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ExplorerPlan />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/plans/revert"
+            element={
+              <ProtectedRoute>
+                <RevertPlan />
               </ProtectedRoute>
             }
           />

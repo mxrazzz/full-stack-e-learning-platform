@@ -1,6 +1,18 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../redux/notificationSlice";
 
 const ContactUs = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+    dispatch(
+      showNotification({
+        message: "Inquiry sent sucessfully.",
+      })
+    );
+  };
   return (
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto bg-[#FFF7E0] text-[#5C3D2E]">
       <div className="max-w-2xl lg:max-w-5xl mx-auto">
@@ -13,7 +25,7 @@ const ContactUs = () => {
           <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 border-[#BFA76F]">
             <h2 className="mb-8 text-xl font-semibold">Fill in the form</h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -50,18 +62,6 @@ const ContactUs = () => {
                     id="email"
                     autoComplete="email"
                     placeholder="Email"
-                    className="py-3 px-4 block w-full rounded-lg text-sm border-[#D4AF37] focus:border-[#C9A567] focus:ring-[#C9A567]"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="sr-only">
-                    Phone Number
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    placeholder="Phone Number"
                     className="py-3 px-4 block w-full rounded-lg text-sm border-[#D4AF37] focus:border-[#C9A567] focus:ring-[#C9A567]"
                   />
                 </div>
