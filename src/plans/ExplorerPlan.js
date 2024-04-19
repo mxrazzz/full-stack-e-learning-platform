@@ -100,6 +100,15 @@ const ExplorerPlan = () => {
               progress={userProgress[module.id]?.progress}
             />
           ))}
+
+          <div className="p-4 flex justify-center items-center">
+            <button
+              className="text-lg font-semibold py-2 px-4 rounded bg-[#D4AF37] hover:bg-[#C9A567] text-[#1A365D] my-2"
+              onClick={() => navigate(`/quiz/${categoryKey}`)}
+            >
+              Take Quiz
+            </button>
+          </div>
         </Slider>
       </div>
     );

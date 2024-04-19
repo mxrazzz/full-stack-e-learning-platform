@@ -33,6 +33,7 @@ const RegistrationVerificationPage = lazy(() =>
   import("./pages/RegistrationVerificationPage")
 );
 const ViewProfile = lazy(() => import("./components/ViewProfile")); // Adjust the path as necessary
+const Quiz = lazy(() => import("./plans/Quiz"));
 
 const NotFoundPage = () => (
   <section className="flex items-center h-full p-16 dark:bg-gray-50 dark:text-gray-800">
@@ -173,6 +174,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/quiz/:quizId" element={<Quiz />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
