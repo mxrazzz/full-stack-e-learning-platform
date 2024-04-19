@@ -49,17 +49,17 @@ const Dashboard = () => {
     explorer: {
       name: "Explorer Plan",
       description: "Begin your journey with the basics of Islam.",
-      imageUrl: "images/explorerPlan.jpg",
+      imageUrl: "images/explorerPlan.png",
     },
     revert: {
       name: "Revert Plan",
       description: "Strengthen your new faith with foundational knowledge.",
-      imageUrl: "images/revertPlan.jpg",
+      imageUrl: "images/revertPlan.png",
     },
     existing: {
       name: "Next Steps Plan",
       description: "Deepen your understanding and practice of Islam.",
-      imageUrl: "images/existingPlan.jpg",
+      imageUrl: "images/existingPlan.png",
     },
   };
 

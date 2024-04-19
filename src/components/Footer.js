@@ -16,7 +16,7 @@ const Footer = () => {
               <img
                 src={logoImage}
                 alt="Path to Islam Logo"
-                className="object-cover w-12 h-12"
+                className="object-cover w-12 h-12 cursor-pointer"
               />
             </div>
             <span className="self-center text-xl text-[#5C3D2E]">
@@ -26,43 +26,38 @@ const Footer = () => {
         </div>
         <div className="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4">
           <div className="space-y-3">
-            <h3 className="tracking-wide uppercase text-[#C9A567]">Product</h3>
+            <h3 className="tracking-wide uppercase text-[#C9A567]">
+              Navigation
+            </h3>
             <ul className="space-y-1">
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
-                  className="text-[#5C3D2E] hover:text-[#C9A567]"
-                >
-                  Features
-                </a>
+                <Link to="/" className="text-[#5C3D2E] hover:text-[#C9A567]">
+                  Home
+                </Link>
               </li>
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
+                <Link
+                  to="/about"
                   className="text-[#5C3D2E] hover:text-[#C9A567]"
                 >
-                  Integrations
-                </a>
+                  About
+                </Link>
               </li>
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
+                <Link
+                  to="/tools"
                   className="text-[#5C3D2E] hover:text-[#C9A567]"
                 >
-                  Pricing
-                </a>
+                  Tools
+                </Link>
               </li>
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
+                <Link
+                  to="/contact"
                   className="text-[#5C3D2E] hover:text-[#C9A567]"
                 >
-                  FAQ
-                </a>
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
@@ -89,38 +84,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="space-y-3">
-            <h3 className="uppercase text-[#C9A567]">Get to know</h3>
-            <ul className="space-y-1">
-              <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
-                  className="text-[#5C3D2E] hover:text-[#C9A567]"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
-                  className="text-[#5C3D2E] hover:text-[#C9A567]"
-                >
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
-                  className="text-[#5C3D2E] hover:text-[#C9A567]"
-                >
-                  Guides
-                </a>
-              </li>
-            </ul>
-          </div>
+
           <div className="space-y-3">
             <div className="uppercase text-[#C9A567]">Social media</div>
             <div className="flex justify-start space-x-3">

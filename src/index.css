@@ -52,3 +52,21 @@ code {
 .opacity-0 {
   animation: fadeOut 0.5s forwards;
 }
+
+
+@keyframes flowBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.flow-background {
+  animation: flowBackground 20s linear infinite alternate;
+}
+
+.plan-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+

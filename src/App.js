@@ -21,6 +21,7 @@ const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const ExplorerPlan = lazy(() => import("./plans/ExplorerPlan"));
 const RevertPlan = lazy(() => import("./plans/RevertPlan"));
+const NextStepsPlanPlan = lazy(() => import("./plans/NextStepsPlan"));
 const CourseContent = lazy(() => import("./plans/CourseContent"));
 const Articles = lazy(() => import("./pages/Articles"));
 const ArticleContent = lazy(() => import("./pages/ArticleContent"));
@@ -32,8 +33,6 @@ const RegistrationVerificationPage = lazy(() =>
   import("./pages/RegistrationVerificationPage")
 );
 const ViewProfile = lazy(() => import("./components/ViewProfile")); // Adjust the path as necessary
-
-// const ExistingMuslimPlan = lazy(() => import("./plans/ExistingMuslimPlan"));
 
 const NotFoundPage = () => (
   <section className="flex items-center h-full p-16 dark:bg-gray-50 dark:text-gray-800">
@@ -159,6 +158,14 @@ function App() {
             }
           />
           <Route
+            path="/plans/existing"
+            element={
+              <ProtectedRoute>
+                <NextStepsPlanPlan />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/course-content/:moduleId"
             element={
               <ProtectedRoute>
@@ -166,8 +173,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* <Route path="/plans/revert" element={<ProtectedRoute><RevertPlan /></ProtectedRoute>} />
-          <Route path="/plans/existing" element={<ProtectedRoute><ExistingMuslimPlan /></ProtectedRoute>} /> */}
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />

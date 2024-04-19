@@ -3,7 +3,7 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import CourseCard from "./CourseCard"; // Ensure this path is correct
+import CourseCard from "./CourseCard";
 import CourseInfoModal from "./CourseInfoModal";
 import logoImage from "../assets/logo.png";
 
@@ -43,6 +43,8 @@ const PopularCourses = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3 } },
       { breakpoint: 600, settings: { slidesToShow: 2 } },

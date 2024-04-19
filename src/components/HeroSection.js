@@ -1,7 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logoImage from "../assets/logo.png";
 
 const HeroSection = () => {
+  //smooth scrolls to the roadmap section
+  const scrollToRoadmapPlans = () => {
+    const roadmapPlans = document.getElementById("roadmap-plans");
+    if (roadmapPlans) {
+      roadmapPlans.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="bg-[#FFF7E0] text-[#5C3D2E]">
       <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
@@ -30,20 +39,18 @@ const HeroSection = () => {
           </div>
 
           <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-            <a
-              rel="noopener noreferrer"
-              href="#"
+            <button
+              onClick={scrollToRoadmapPlans}
               className="px-8 py-3 text-lg font-semibold rounded bg-[#D4AF37] text-[#1A365D]"
             >
               Choose a Path now!
-            </a>
-            <a
-              rel="noopener noreferrer"
-              href="#"
+            </button>
+            <Link
+              to="/about"
               className="px-8 py-3 text-lg font-semibold border rounded border-[#C9A567] text-[#5C3D2E]"
             >
               About us
-            </a>
+            </Link>
           </div>
         </div>
       </div>

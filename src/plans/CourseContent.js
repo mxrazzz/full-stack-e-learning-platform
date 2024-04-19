@@ -3,7 +3,6 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../redux/notificationSlice";
-import DOMPurify from "dompurify";
 
 const CourseContent = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);

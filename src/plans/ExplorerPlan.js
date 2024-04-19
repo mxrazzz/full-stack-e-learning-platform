@@ -22,7 +22,7 @@ const ExplorerPlan = () => {
     const fetchModules = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/modules?populate=*"
+          "http://localhost:1337/api/modules?filters[plan][$eq]=Explorer&populate=*"
         );
         const modulesWithImages = response.data.data.map((module) => {
           const imageUrl = module.attributes.Image.data
@@ -105,11 +105,26 @@ const ExplorerPlan = () => {
     );
   };
 
+  const goToDashboard = () => {
+    navigate("/dashboard"); // Adjust the route as necessary for your dashboard
+  };
+
   return (
     <div className="bg-[#FFF9EC] text-[#5D5D5A] p-6">
-      <h2 className="text-2xl font-semibold text-[#5C3D2E] mb-4">
-        Explorer Plan
-      </h2>
+      <div className="flex justify-center items-center mb-4">
+        <div className="flex items-center gap-4">
+          <h2 className="text-2xl font-semibold text-[#5C3D2E]">
+            Explorer Plan
+          </h2>
+          <button
+            type="button"
+            onClick={goToDashboard}
+            className="px-8 py-3 font-semibold rounded text-white bg-[#1A365D] hover:bg-[#162945] focus:outline-none focus:ring-2 focus:ring-[#1A365D] focus:ring-opacity-50"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
       {categories.map(({ key, label }) =>
         renderSliderForCategory(key, label, userProgress)
       )}

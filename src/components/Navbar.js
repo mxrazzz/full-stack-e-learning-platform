@@ -145,7 +145,7 @@ function Navbar() {
                   <span>{userData.firstName}</span>
                 </div>
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg py-1 rounded-md">
+                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg py-1 rounded-md z-50">
                     <Link
                       to="/dashboard"
                       className="group flex items-center px-2 py-2 text-base font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700"
