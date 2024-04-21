@@ -16,6 +16,7 @@ import { hideNotification } from "./redux/notificationSlice"; // Ensure correct 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
+const LegalPage = lazy(() => import("./legal/LegalPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -113,6 +114,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/legal" element={<LegalPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/articles" element={<Articles />} />
@@ -174,7 +176,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/quiz/:quizId" element={<Quiz />} />
+          <Route
+            path="/quiz/:quizId"
+            element={
+              <ProtectedRoute>
+                <Quiz />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

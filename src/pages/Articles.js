@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const defaultImageUrl = process.env.PUBLIC_URL + "/images/not_found.png";
-
 const Articles = () => {
   const [articles, setArticles] = useState([]);
   const navigate = useNavigate();

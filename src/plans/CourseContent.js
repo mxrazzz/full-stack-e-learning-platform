@@ -75,9 +75,9 @@ const CourseContent = () => {
             <iframe
               key={index}
               src={embedUrl}
+              title={`Video ${index}`} // Add a unique and descriptive title
               width="560"
               height="315"
-              frameBorder="0"
               allowFullScreen
               className="my-4"
             ></iframe>

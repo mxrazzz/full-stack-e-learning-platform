@@ -75,22 +75,13 @@ const ArticleContent = () => {
         <h1 className="text-5xl font-bold leading-none">{article.title}</h1>
         <div className="flex flex-wrap space-x-2 text-sm dark:text-gray-600">
           {article.tags.map((tag) => (
-            <a key={tag} href="#" className="p-1 hover:underline">
+            <span key={tag} className="p-1 ">
               #{tag}
-            </a>
+            </span>
           ))}
         </div>
         <p className="text-sm dark:text-gray-600">
-          by{" "}
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline dark:text-violet-600"
-          >
-            <span>{article.author}</span>
-          </a>{" "}
-          on
+          by <span className="">{article.author}</span> on
           <time dateTime={article.published}> {article.published}</time>
         </p>
       </div>

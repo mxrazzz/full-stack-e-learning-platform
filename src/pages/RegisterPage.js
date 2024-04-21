@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/userSlice";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -58,7 +56,7 @@ const RegisterPage = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

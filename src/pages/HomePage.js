@@ -1,8 +1,8 @@
 import React from "react";
-import HeroSection from "../components/HeroSection";
-import PopularCourses from "../components/PopularCourses";
-import RoadmapPlans from "../components/RoadmapPlans";
-import TopArticles from "../components/TopArticles";
+import HeroSection from "../HomePage/HeroSection";
+import PopularCourses from "../HomePage/PopularCourses";
+import RoadmapPlans from "../HomePage/RoadmapPlans";
+import TopArticles from "../HomePage/TopArticles";
 
 function HomePage() {
   return (

@@ -1,5 +1,4 @@
 import React from "react";
-import penImage from "../assets/pen.png";
 
 const AboutPage = () => {
   return (
@@ -46,7 +45,7 @@ const AboutPage = () => {
             </div>
             <div aria-hidden="true" className="mt-10 lg:mt-0">
               <img
-                src={penImage}
+                src={"/images/pen.png"}
                 alt=""
                 className="mx-auto rounded-lg shadow-lg dark:bg-gray-500"
               />

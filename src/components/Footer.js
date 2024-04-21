@@ -61,26 +61,33 @@ const Footer = () => {
               </li>
             </ul>
           </div>
+
           <div className="space-y-3">
             <h3 className="tracking-wide uppercase text-[#C9A567]">Company</h3>
             <ul className="space-y-1">
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
+                <Link
+                  to="/legal"
                   className="text-[#5C3D2E] hover:text-[#C9A567]"
                 >
                   Privacy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
+                <Link
+                  to="/legal"
                   className="text-[#5C3D2E] hover:text-[#C9A567]"
                 >
                   Terms of Service
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/legal"
+                  className="text-[#5C3D2E] hover:text-[#C9A567]"
+                >
+                  Cookie Policy
+                </Link>
               </li>
             </ul>
           </div>

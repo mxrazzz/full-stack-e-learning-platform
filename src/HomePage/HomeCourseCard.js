@@ -1,7 +1,7 @@
 // CourseCard.js
 import React from "react";
 
-const CourseCard = ({ title, description, image, onLearnMore }) => {
+const HomeCourseCard = ({ title, description, image, onLearnMore }) => {
   return (
     <div
       className="flex flex-col rounded-md shadow-md bg-[#C9A567] m-2"
@@ -32,4 +32,4 @@ const CourseCard = ({ title, description, image, onLearnMore }) => {
   );
 };
 
-export default CourseCard;
+export default HomeCourseCard;
