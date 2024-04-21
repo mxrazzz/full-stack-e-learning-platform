@@ -90,7 +90,7 @@ const Footer = () => {
             <div className="flex justify-start space-x-3">
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.facebook.com/"
                 title="Facebook"
                 className="flex items-center p-1"
               >
@@ -105,7 +105,7 @@ const Footer = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://twitter.com/"
                 title="Twitter"
                 className="flex items-center p-1"
               >
@@ -119,7 +119,7 @@ const Footer = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.instagram.com/"
                 title="Instagram"
                 className="flex items-center p-1"
               >

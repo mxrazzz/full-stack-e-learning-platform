@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../redux/notificationSlice";
 
@@ -10,6 +10,8 @@ const CourseContent = () => {
   const { moduleId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const returnPath = location.state?.returnPath || "/"; //directs to the plan
 
   useEffect(() => {
     if (moduleId) {
@@ -123,12 +125,18 @@ const CourseContent = () => {
         message: "Congrats for completing this module, 50XP added!",
       })
     );
-    navigate("/dashboard"); // Redirect user to the dashboard, adjust the path as needed
+    navigate(returnPath); // Redirect user to the dashboard, adjust the path as needed
   };
 
   return (
     <div className="flex flex-col md:flex-row">
       <div className="md:w-1/4 bg-gray-800 text-white p-4">
+        <button
+          onClick={() => navigate(returnPath)}
+          className="mb-4 px-4 py-2 font-semibold rounded-md bg-blue-500 hover:bg-blue-700 text-white"
+        >
+          Back to Plan
+        </button>
         <h2 className="text-lg font-semibold border-b border-gray-600 pb-2">
           Pages
         </h2>

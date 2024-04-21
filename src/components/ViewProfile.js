@@ -102,13 +102,14 @@ const ViewProfile = () => {
             </label>
             <div className="flex items-center mt-1">
               <div className="text-sm text-gray-900 mr-2">{user.xp} XP</div>
-              <div className="w-64 bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+              <div className="relative w-64 h-4 bg-gray-200 rounded-full">
                 <div
-                  className="bg-[#D4AF37] h-2 rounded-full"
+                  className="absolute h-4 rounded-full bg-[#000080]"
                   style={{ width: `${(user.xp % 200) / 2}%` }}
                 ></div>
               </div>
             </div>
+
             <div className="mt-2 text-sm text-gray-900">
               Level: {calculateLevel(user.xp)}
             </div>

@@ -3,14 +3,15 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import CourseCard from "./CourseCardPlan"; // Adjust the import path as necessary
+import CourseCard from "./CourseCardPlan";
+import QuizCard from "./QuizCard";
 import logoImage from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 
 const categories = [
   { key: "EssentialsOfIslam", label: "Essentials of Islam" },
   { key: "AddressingMisconceptions", label: "Addressing Misconceptions" },
-  { key: "IslamVsOthers", label: "Islam vs. Others" },
+  { key: "IslamVsOthers", label: "Islam vs Others" },
   { key: "ProofsForIslam", label: "Proofs For Islam" },
 ];
 
@@ -64,22 +65,29 @@ const ExplorerPlan = () => {
 
     const sliderSettings = {
       dots: true,
-      infinite: filteredModules.length > 3,
+      infinite: false,
       speed: 500,
-      slidesToShow: Math.min(3, filteredModules.length),
+      slidesToShow: Math.min(4, filteredModules.length),
       slidesToScroll: 1,
       responsive: [
         {
-          breakpoint: 768,
+          breakpoint: 1280, // For screens up to 1024px
           settings: {
-            slidesToShow: Math.min(2, filteredModules.length),
+            slidesToShow: 3, // Show 3 items if the screen size is less than or equal to 1024px
             slidesToScroll: 1,
           },
         },
         {
-          breakpoint: 480,
+          breakpoint: 1000, // For screens up to 768px
           settings: {
-            slidesToShow: 1,
+            slidesToShow: 2, // Show 2 items if the screen size is less than or equal to 768px
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 480, // For screens up to 480px
+          settings: {
+            slidesToShow: 1, // Show 1 item if the screen size is less than or equal to 480px
             slidesToScroll: 1,
           },
         },
@@ -98,17 +106,14 @@ const ExplorerPlan = () => {
               description={module.attributes.description}
               image={module.imageUrl}
               progress={userProgress[module.id]?.progress}
+              returnPath="/plans/explorer"
             />
           ))}
-
-          <div className="p-4 flex justify-center items-center">
-            <button
-              className="text-lg font-semibold py-2 px-4 rounded bg-[#D4AF37] hover:bg-[#C9A567] text-[#1A365D] my-2"
-              onClick={() => navigate(`/quiz/${categoryKey}`)}
-            >
-              Take Quiz
-            </button>
-          </div>
+          <QuizCard
+            categoryKey={categoryKey}
+            categoryName={label}
+            returnPath="/plans/explorer" // This ensures the return path is dynamic
+          />
         </Slider>
       </div>
     );
@@ -128,7 +133,7 @@ const ExplorerPlan = () => {
           <button
             type="button"
             onClick={goToDashboard}
-            className="px-8 py-3 font-semibold rounded text-white bg-[#1A365D] hover:bg-[#162945] focus:outline-none focus:ring-2 focus:ring-[#1A365D] focus:ring-opacity-50"
+            className="px-4 py-3 text-sm font-semibold rounded text-white bg-[#1A365D] hover:bg-[#162945] focus:outline-none focus:ring-2 focus:ring-[#1A365D] focus:ring-opacity-50"
           >
             Back to Dashboard
           </button>

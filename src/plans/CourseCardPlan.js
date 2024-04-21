@@ -1,11 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const CourseCardPlan = ({ id, title, description, image, progress }) => {
+const CourseCardPlan = ({
+  id,
+  title,
+  description,
+  image,
+  progress,
+  returnPath,
+}) => {
   const navigate = useNavigate();
 
   const startCourse = () => {
-    navigate(`/course-content/${id}`);
+    navigate(`/course-content/${id}`, { state: { returnPath } });
   };
 
   return (

@@ -8,11 +8,10 @@ const CourseCard = ({ title, description, image, onLearnMore }) => {
       style={{ width: "300px", height: "350px" }}
     >
       {" "}
-      {/* Fixed size but you can adjust */}
       <img
         src={image}
         alt="Course"
-        style={{ height: "150px", objectFit: "cover" }} // Adjust height as needed
+        style={{ height: "150px", objectFit: "cover" }}
       />
       <div
         className="flex flex-col p-4 justify-between"

@@ -83,53 +83,48 @@ const AboutPage = () => {
           <div className="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-[#C9A567]">
             <details>
               <summary className="py-2 outline-none cursor-pointer focus:underline text-[#5C3D2E]">
-                What courses do you offer for beginners?
+                Praesent in augue a urna volutpat rutrum nec non felis.
               </summary>
               <div className="px-4 pb-4">
                 <p>
-                  Our beginner courses include an introduction to Islam, basic
-                  beliefs and practices, and a guide to reading and
-                  understanding the Quran. Each course is designed to provide a
-                  comprehensive foundation in Islamic knowledge.
+                  Sed vehicula venenatis nisi, in mattis nibh consectetur at.
+                  Morbi varius, nisi vel mollis imperdiet, felis lectus sagittis
+                  sapien, sit amet semper nisl purus ut urna
                 </p>
               </div>
             </details>
             <details>
               <summary className="py-2 outline-none cursor-pointer focus:underline text-[#5C3D2E]">
-                Can I get certification for completing a course?
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit
               </summary>
               <div className="px-4 pb-4">
                 <p>
-                  Yes, upon successful completion of a course, participants will
-                  receive a certificate acknowledging their achievement. This
-                  certificate is a testament to your dedication and
-                  understanding of the course material.
+                  Fusce nisl neque, dignissim vel lobortis ut, lacinia non arcu.
+                  Fusce nulla nulla, finibus vitae tincidunt vitae, malesuada
+                  nec eros.
                 </p>
               </div>
             </details>
             <details>
               <summary className="py-2 outline-none cursor-pointer focus:underline text-[#5C3D2E]">
-                Are there any resources available for advanced Islamic studies?
+                Integer a consequat ligula, quis bibendum quam
               </summary>
               <div className="px-4 pb-4">
                 <p>
-                  For those seeking deeper knowledge, we offer advanced courses
-                  covering Islamic jurisprudence, Hadith studies, Islamic
-                  history, and more. Additionally, our library provides access
-                  to a wealth of books and scholarly articles for further study.
+                  Duis tempor vel justo et sodales. Maecenas eget quam ac odio
+                  gravida accumsan nec.
                 </p>
               </div>
             </details>
             <details>
               <summary className="py-2 outline-none cursor-pointer focus:underline text-[#5C3D2E]">
-                How can I support your educational mission?
+                Phasellus interdum eros quis ipsum venenatis, vitae sollicitudin
+                odio consectetur
               </summary>
               <div className="px-4 pb-4">
                 <p>
-                  Supporting our mission can be done through donations,
-                  volunteering to mentor new students, or simply by spreading
-                  the word about our platform. Your support helps us continue
-                  providing accessible Islamic education to everyone.
+                  Aliquam iaculis libero quis neque vulputate, in maximus augue
+                  suscipit.
                 </p>
               </div>
             </details>
