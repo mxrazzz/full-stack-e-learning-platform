@@ -1,26 +1,28 @@
+// handles forgot password feature for user
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPasswordPage = () => {
-  const [email, setEmail] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // New loading state
+  const [email, setEmail] = useState(""); //setting email state which starts empty
+  const [errorMessage, setErrorMessage] = useState(""); // same with setting the error messages
+  const [isLoading, setIsLoading] = useState(false); // loading to prevent further button input
   const navigate = useNavigate();
 
+  //function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Reset error message
-    setIsLoading(true); // Start loading
+    setErrorMessage(""); // Resetting error message
+    setIsLoading(true); // loading begins as button is pressed
 
     try {
-      // Call the backend endpoint with the email
+      // making request to backend to reset password
       await axios.post("http://localhost:5000/api/auth/resend-verification", {
         email,
-        action: "reset",
+        action: "reset", //specify it's a reset action, as this API call could be used to send code for registration
       });
-      setIsLoading(false); // Stop loading
-      // Navigate to verification code page with email as state
+      setIsLoading(false); // stops the loading if request was successful
+      // Navigate to verification code page and pass the email as a state to ensure data flows smoothly and securely
       navigate("/verification-code", { state: { email } });
     } catch (error) {
       console.error("Forgot password error:", error);
@@ -28,7 +30,7 @@ const ForgotPasswordPage = () => {
         error.response?.data?.message ||
           "There was an error processing your request."
       );
-      setIsLoading(false); // Stop loading in case of an error
+      setIsLoading(false); // loading stops after an error
     }
   };
 
@@ -53,7 +55,7 @@ const ForgotPasswordPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                disabled={isLoading} // Disable input during loading
+                disabled={isLoading} // will disable input during loading
               />
             </div>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -61,9 +63,9 @@ const ForgotPasswordPage = () => {
           <button
             type="submit"
             className="w-full px-8 py-3 font-semibold rounded-md bg-[#D4AF37] text-[#1A365D]"
-            disabled={isLoading} // Disable button during loading
+            disabled={isLoading} // will disable button during loading
           >
-            {isLoading ? "Processing..." : "Send Reset Email"}
+            {isLoading ? "Processing..." : "Verify your email"}
           </button>
         </form>
       </div>

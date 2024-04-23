@@ -1,8 +1,7 @@
-// ViewProfile.js
+// Displaying and managing the user profile
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 
@@ -52,6 +51,7 @@ const ViewProfile = () => {
     }
 
     try {
+      // API POST to change password in the database
       await axios.post(
         "http://localhost:5000/api/auth/change-password",
         {
@@ -64,9 +64,9 @@ const ViewProfile = () => {
       setFeedbackMessage("Password changed successfully!");
       dispatch(logout());
 
-      // Redirect to login
+      // redirected to login after password changed
       navigate("/login");
-      // Clear the form fields
+      // clearing form fields
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -77,11 +77,13 @@ const ViewProfile = () => {
     }
   };
 
-  // Calculate level based on XP
+  // calculating level based on XP
   const calculateLevel = (xp) => {
-    return Math.floor(xp / 200) + 1; // Adjust XP calculation as needed
+    return Math.floor(xp / 200) + 1;
   };
 
+  // Used AI to display the divs properly with the colors I wanted, as well as displaying the levels and XP properly
+  // Change Password functionality implemented by me, else the rest is from AI generation
   return (
     <div className="bg-[#FFF7E0] min-h-screen">
       <div className="container mx-auto px-4 py-8">
@@ -115,7 +117,7 @@ const ViewProfile = () => {
             </div>
           </div>
           <div>
-            {isChangingPassword ? (
+            {isChangingPassword ? ( //implemented by me, div setup by AI
               <form onSubmit={handlePasswordChangeSubmit} className="space-y-4">
                 <div>
                   <label

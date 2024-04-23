@@ -1,4 +1,5 @@
-// CourseCard.js
+// Displays the popular courses cards
+// All cards adapted from https://mambaui.com/components/card
 import React from "react";
 
 const HomeCourseCard = ({ title, description, image, onLearnMore }) => {

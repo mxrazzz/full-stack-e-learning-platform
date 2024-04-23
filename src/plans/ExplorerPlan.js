@@ -1,3 +1,4 @@
+//Component to display the Explorer plan page with carousel sliders of all its modules
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Slider from "react-slick";
@@ -5,9 +6,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CourseCard from "./CourseCardPlan";
 import QuizCard from "./QuizCard";
-import logoImage from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 
+//defining all categories in the plan
 const categories = [
   { key: "EssentialsOfIslam", label: "Essentials of Islam" },
   { key: "AddressingMisconceptions", label: "Addressing Misconceptions" },
@@ -16,27 +17,37 @@ const categories = [
 ];
 
 const ExplorerPlan = () => {
-  const [modules, setModules] = useState([]);
-  const [userProgress, setUserProgress] = useState({});
+  const [modules, setModules] = useState([]); //storing module data
+  const [userProgress, setUserProgress] = useState({}); //storing user progress
   const navigate = useNavigate();
+
+  //function to take user to dashboard after button is pressed
+  const goToDashboard = () => {
+    navigate("/dashboard");
+  };
+
   useEffect(() => {
+    //function for fetching module from Strapi
     const fetchModules = async () => {
       try {
+        //fetching modules filtered by category from Strapi backend
         const response = await axios.get(
           "http://localhost:1337/api/modules?filters[plan][$eq]=Explorer&populate=*"
         );
+        //For all Strapi image fetching, used AI as no documentation could be found to resolve image fetching issues
         const modulesWithImages = response.data.data.map((module) => {
           const imageUrl = module.attributes.Image.data
             ? `http://localhost:1337${module.attributes.Image.data[0].attributes.url}`
-            : logoImage;
+            : "/images/not_found.png";
           return { ...module, imageUrl };
         });
-        setModules(modulesWithImages);
+        setModules(modulesWithImages); //updates module state
       } catch (error) {
         console.error("Failed to fetch modules:", error);
       }
     };
 
+    //function for fetching user progress for a module on MongoDB
     const fetchUserProgress = async () => {
       try {
         const { data: progressData } = await axios.get(
@@ -44,50 +55,54 @@ const ExplorerPlan = () => {
           { withCredentials: true }
         );
         // Convert progressData array to an object for easier access
+        //AI used here
         const progressMap = progressData.reduce((acc, cur) => {
-          acc[cur.moduleId] = cur; // Assuming cur.moduleId is the module's ID
+          acc[cur.moduleId] = cur;
           return acc;
         }, {});
-        setUserProgress(progressMap);
+        setUserProgress(progressMap); //updates progress state
       } catch (error) {
         console.error("Failed to fetch user progress:", error);
       }
     };
 
+    //both functions called
     fetchModules();
     fetchUserProgress();
-  }, []);
+  }, []); //empty so that effect only runs once
 
+  // renders the slider for each of the categories from the categories array
   const renderSliderForCategory = (categoryKey, label) => {
     const filteredModules = modules.filter(
       (module) => module.attributes.Category === categoryKey
     );
 
+    //setup for the slider
     const sliderSettings = {
       dots: true,
       infinite: false,
       speed: 500,
-      slidesToShow: Math.min(4, filteredModules.length),
+      slidesToShow: Math.min(4, filteredModules.length), //will display 4 slides, scales down as size of screen decreases
       slidesToScroll: 1,
       responsive: [
         {
-          breakpoint: 1280, // For screens up to 1024px
+          breakpoint: 1280, // For screens up to 1280px
           settings: {
-            slidesToShow: 3, // Show 3 items if the screen size is less than or equal to 1024px
+            slidesToShow: 3,
             slidesToScroll: 1,
           },
         },
         {
-          breakpoint: 1000, // For screens up to 768px
+          breakpoint: 1000, // For screens up to 1000px
           settings: {
-            slidesToShow: 2, // Show 2 items if the screen size is less than or equal to 768px
+            slidesToShow: 2,
             slidesToScroll: 1,
           },
         },
         {
           breakpoint: 480, // For screens up to 480px
           settings: {
-            slidesToShow: 1, // Show 1 item if the screen size is less than or equal to 480px
+            slidesToShow: 1,
             slidesToScroll: 1,
           },
         },
@@ -97,6 +112,7 @@ const ExplorerPlan = () => {
     return (
       <div className="category-slider" key={categoryKey}>
         <h3 className="text-xl font-semibold mb-4">{label}</h3>
+        {/* mapping through the filtered modules, placing a CourseCard component for each module*/}
         <Slider {...sliderSettings}>
           {filteredModules.map((module) => (
             <CourseCard
@@ -105,22 +121,19 @@ const ExplorerPlan = () => {
               title={module.attributes.Title}
               description={module.attributes.description}
               image={module.imageUrl}
-              progress={userProgress[module.id]?.progress}
+              progress={userProgress[module.id]?.progress} //AI used to display progress
               returnPath="/plans/explorer"
             />
           ))}
+          {/* At the end of the modules, a QuizCard component is placed for each category */}
           <QuizCard
             categoryKey={categoryKey}
             categoryName={label}
-            returnPath="/plans/explorer" // This ensures the return path is dynamic
+            returnPath="/plans/explorer" // will always return to this plan once quiz is done
           />
         </Slider>
       </div>
     );
-  };
-
-  const goToDashboard = () => {
-    navigate("/dashboard"); // Adjust the route as necessary for your dashboard
   };
 
   return (
@@ -139,6 +152,7 @@ const ExplorerPlan = () => {
           </button>
         </div>
       </div>
+      {/* Map through categories and render slider for each */}
       {categories.map(({ key, label }) =>
         renderSliderForCategory(key, label, userProgress)
       )}

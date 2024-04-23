@@ -1,8 +1,10 @@
+//Register component
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const RegisterPage = () => {
+  //state that manages formData
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -11,13 +13,19 @@ const RegisterPage = () => {
     confirmPassword: "",
     terms: false,
   });
+  const [errors, setErrors] = useState({});
+  const [isLoading, setisLoading] = useState(false);
+  const navigate = useNavigate();
 
+  //AI generated, handles changes in what the user types in the form
   const handleChange = (e) => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
   };
 
+  //All validation checks for the register
+  //Used AI to generate validation for me as it's more efficient than reusing online code
   const validateForm = () => {
     let formErrors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -44,7 +52,7 @@ const RegisterPage = () => {
     if (!formData.confirmPassword) {
       formErrors.confirmPassword = "Confirming password is required";
     } else if (formData.confirmPassword !== formData.password) {
-      formErrors.confirmPassword = "Passwords must match";
+      formErrors.confirmPassword = "Passwords must match!";
     }
 
     if (!formData.terms) {
@@ -54,18 +62,15 @@ const RegisterPage = () => {
     return formErrors;
   };
 
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const navigate = useNavigate();
-
+  //deals with form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validateForm();
+    const validationErrors = validateForm(); //form fields validated with this function
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0 && !isSubmitting) {
-      setIsSubmitting(true);
+    //if validation successful and form not being submitted, request is sent to server
+    if (Object.keys(validationErrors).length === 0 && !isLoading) {
+      setisLoading(true);
       try {
         // Send the registration data to the server
         await axios.post("http://localhost:5000/api/auth/register", {
@@ -75,6 +80,7 @@ const RegisterPage = () => {
           password: formData.password,
         });
 
+        //navigates to verification page, keeping email saved as last state
         navigate("/verify-registration", { state: { email: formData.email } });
       } catch (error) {
         console.error("Registration error:", error.response.data);
@@ -82,12 +88,13 @@ const RegisterPage = () => {
           ...errors,
           general: error.response.data.message || "An error occurred",
         });
-        setIsSubmitting(false); // Disable loading state in case of error
+        setisLoading(false); // Disable loading state in case of error
       }
     }
   };
 
-  // Inside your RegisterPage component
+  // JSX form adapted from Login Page, mix of AI generation to debug div issues/tailwind CSS styling
+  //all form info done by me
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#FFF7E0]">
@@ -96,7 +103,7 @@ const RegisterPage = () => {
           Register for an account
         </h2>
 
-        {isSubmitting ? (
+        {isLoading ? (
           <div className="flex justify-center items-center">
             <div
               className="w-16 h-16 border-4 border-dashed rounded-full animate-spin "
@@ -106,7 +113,6 @@ const RegisterPage = () => {
         ) : (
           <form noValidate onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-4">
-              {/* First Name Field */}
               <div className="space-y-2">
                 <label
                   htmlFor="firstName"
@@ -128,8 +134,6 @@ const RegisterPage = () => {
                   <p className="text-red-500 text-xs">{errors.firstName}</p>
                 )}
               </div>
-
-              {/* Last Name Field */}
               <div className="space-y-2">
                 <label
                   htmlFor="lastName"
@@ -227,7 +231,7 @@ const RegisterPage = () => {
                   I agree to the{" "}
                   <span
                     className="underline cursor-pointer"
-                    onClick={() => navigate("/terms-and-conditions")}
+                    onClick={() => navigate("/legal")}
                   >
                     Terms and Conditions
                   </span>
@@ -240,7 +244,7 @@ const RegisterPage = () => {
             <button
               type="submit"
               className="w-full px-8 py-3 font-semibold rounded-md bg-[#D4AF37] text-[#1A365D]"
-              disabled={isSubmitting}
+              disabled={isLoading}
             >
               Register
             </button>

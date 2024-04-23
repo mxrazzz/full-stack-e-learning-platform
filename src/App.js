@@ -10,9 +10,9 @@ import {
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useSelector, useDispatch } from "react-redux";
-import { hideNotification } from "./redux/notificationSlice"; // Ensure correct import paths
+import { hideNotification } from "./redux/notificationSlice";
 
-// Lazy loaded pages
+// Lazy loaded pages to optimize loading components
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
@@ -29,13 +29,17 @@ const ArticleContent = lazy(() => import("./pages/ArticleContent"));
 const Tools = lazy(() => import("./pages/Tools"));
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
-const VerificationCodePage = lazy(() => import("./pages/VerificationCodePage"));
+const VerificationCodePage = lazy(() =>
+  import("./pages/EmailVerificationPage")
+);
 const RegistrationVerificationPage = lazy(() =>
   import("./pages/RegistrationVerificationPage")
 );
-const ViewProfile = lazy(() => import("./components/ViewProfile")); // Adjust the path as necessary
+const ViewProfile = lazy(() => import("./components/ViewProfile"));
 const Quiz = lazy(() => import("./plans/Quiz"));
 
+//reused from https://mambaui.com/components/error
+//displays for any page that does not exist in the app
 const NotFoundPage = () => (
   <section className="flex items-center h-full p-16 dark:bg-gray-50 dark:text-gray-800">
     <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
@@ -60,7 +64,7 @@ const NotFoundPage = () => (
   </section>
 );
 
-//Notification functions
+//displays notifications globally across the app, using Redux
 
 const GlobalNotification = () => {
   const notification = useSelector((state) => state.notification);
@@ -93,7 +97,7 @@ const GlobalNotification = () => {
   );
 };
 
-// Protected Route Component
+// Protected Route Component that checks if user is authenticated, else a component will not be accessible to them
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
@@ -104,11 +108,26 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+//all components wrapped in Router to enable routing between different pages throughout the app
+// Navbar and Footer are also rendered inside to make sure they are always visible
 function App() {
   return (
     <Router>
       <GlobalNotification />
-      <Suspense fallback={<div>Loading...</div>}>
+      {/* // Suspense component to display the loading state of the lazy components. will display the spinner from https://mambaui.com/components/loading*/}
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center w-full h-screen">
+            <div
+              className="w-32 h-32 border-8 border-dashed rounded-full animate-spin"
+              style={{
+                borderColor: "goldenrod transparent",
+                borderWidth: "8px",
+              }}
+            ></div>
+          </div>
+        }
+      >
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />

@@ -1,3 +1,5 @@
+//Fetches course content from Strapi to display
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
@@ -5,13 +7,16 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../redux/notificationSlice";
 
 const CourseContent = () => {
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [currentPageIndex, setCurrentPageIndex] = useState(0); //state to manage current page
   const [pages, setPages] = useState([]);
-  const { moduleId } = useParams();
+  const { moduleId } = useParams(); //fetching the module id from url, idea from AI
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const returnPath = location.state?.returnPath || "/"; //directs to the plan
+  const returnPath = location.state?.returnPath || "/"; // returns back to previous page after completing course
+
+  //main function, to fetch course content depending on module id
+  // extensive testing done through Postman to view content blocks array and how to extract it successfully
 
   useEffect(() => {
     if (moduleId) {
@@ -21,61 +26,72 @@ const CourseContent = () => {
         )
         .then((response) => {
           const contentBlocks =
-            response.data.data.attributes.ContentBlocks || [];
-          let tempPages = [];
-          let currentPageBlocks = [];
+            response.data.data.attributes.ContentBlocks || []; //extracting array of content blocks from the request,
+          let tempPages = []; //storing the pages temporarily
+          let currentPageBlocks = []; //storing the content block for the current page
 
+          //check if block is a text block and that it has a heading
+          //iterate over array and start a new page whenever we encounter a heading using forEach
+          // whenever there is no heading, it will add content to the current page
+          // once a heading is detected, a new page is created, and content will be added there
           contentBlocks.forEach((block, index) => {
-            // Assuming that a 'text' block with a 'heading' type indicates a new page
             if (
               block.__component === "content-blocks.text" &&
               block.content[0]?.type === "heading"
             ) {
-              if (currentPageBlocks.length) tempPages.push(currentPageBlocks);
-              currentPageBlocks = [block];
+              //if it has a heading, start a new page , adding the current block
+              if (currentPageBlocks.length) tempPages.push(currentPageBlocks); //pushes current page block
+              currentPageBlocks = [block]; //starts a new page with current block
             } else {
-              currentPageBlocks.push(block);
+              currentPageBlocks.push(block); //if there is no heading, the content will simply be added to current page
             }
           });
 
+          //after iterating through all blocks, any remaining blocks are added as a last page, to the tempPages array
           if (currentPageBlocks.length) tempPages.push(currentPageBlocks);
-          setPages(tempPages);
+          setPages(tempPages); //organises all the pages now that tempPages has also been included
         })
         .catch((error) => console.error("Error fetching content:", error));
     }
-  }, [moduleId]);
+  }, [moduleId]); // module id is a dependency array: as we can click on different modules, it needs to continuously execute the useEffect to fetch the updated course content
 
+  // AI and Strapi Docs used to debug renderPageContent
+
+  //function to render the content for each page
+  //pageBlock is the contentblock stored in each page
   const renderPageContent = (pageBlocks) => {
     return pageBlocks.map((block, index) => {
       switch (block.__component) {
+        //for content blocks of type text, it iterates over its content array
         case "content-blocks.text":
-          // Since the text block has a nested content structure, we map over it to render paragraphs and headings.
+          // as it has a nested content structure, we map over it and check its type as either paragraph or heading
           return block.content.map((contentItem, contentIndex) => {
             if (contentItem.type === "paragraph") {
               return (
+                // a paragraph will be generated with <p> tags in JSX
                 <p key={contentIndex} className="mb-4">
                   {contentItem.children.map((child) => child.text).join("")}
                 </p>
               );
             } else if (contentItem.type === "heading") {
               return (
+                // a heading will be generated with <h1> tags in JSX
                 <h1 key={contentIndex} className="text-2xl font-bold mb-4">
                   {contentItem.children.map((child) => child.text).join("")}
                 </h1>
               );
             } else {
-              return null; // Other types can be added as needed
+              return null;
             }
           });
-
+        // if content block is of type video, we generate an iframe element to embed the video content.
         case "content-blocks.video":
-          // Make sure your video URL is an embeddable URL.
-          const embedUrl = block.url.replace("watch?v=", "embed/");
+          const embedUrl = block.url.replace("watch?v=", "embed/"); //makes sure to replace url to embed so it can be embedded here
           return (
             <iframe
               key={index}
               src={embedUrl}
-              title={`Video ${index}`} // Add a unique and descriptive title
+              title={`Video ${index}`}
               width="560"
               height="315"
               allowFullScreen
@@ -84,33 +100,36 @@ const CourseContent = () => {
           );
 
         default:
-          return null; // Handle any other types as needed
+          return null;
       }
     });
   };
+
+  //deals with user navigating to the next pges
   const handleNextPage = () => {
     if (currentPageIndex < pages.length - 1) {
-      const newPageIndex = currentPageIndex + 1;
+      const newPageIndex = currentPageIndex + 1; //increments the page to move to the next page
       setCurrentPageIndex(newPageIndex);
 
-      // Calculate progress
+      // Calculate progress as you move to the next page
       const progress = ((newPageIndex + 1) / pages.length) * 100;
-      updateProgress(progress);
+      updateProgress(progress); //function called to update progress on server
     }
   };
 
+  //function to update progress within the module
   const updateProgress = async (progress) => {
-    // moduleId is obtained from useParams() at the start of your component
+    // moduleId is obtained from useParams() at the start of component, thanks to AI figuring out how to obtain this as module is stored in Strapi but progress stored in MongoDB
     try {
       const response = await axios.post(
         "http://localhost:5000/api/progress/update",
         {
-          moduleId: moduleId, // Ensure this is the Strapi module ID
+          moduleId: moduleId,
           progress: progress,
           completed: progress >= 100,
         },
         { withCredentials: true }
-      ); // Adjust as necessary for auth
+      );
 
       console.log("Progress update response:", response.data);
     } catch (error) {
@@ -118,16 +137,19 @@ const CourseContent = () => {
     }
   };
 
+  //function called once reaching final page, sets module as complete
   const completeCourse = () => {
-    updateProgress(100); // Ensure progress is set to 100%
+    updateProgress(100); // sets progress to 100
     dispatch(
       showNotification({
+        //displays notification to user
         message: "Congrats for completing this module, 50XP added!",
       })
     );
-    navigate(returnPath); // Redirect user to the dashboard, adjust the path as needed
+    navigate(returnPath); // Redirect user to the the previous page i.e the plan page they started the module on
   };
 
+  //Page Lists and resize feature implemented thanks to AI
   return (
     <div className="flex flex-col md:flex-row">
       <div className="md:w-1/4 bg-gray-800 text-white p-4">
@@ -141,6 +163,7 @@ const CourseContent = () => {
           Pages
         </h2>
         <ul>
+          {/* maps through the pages to display all the pages */}
           {pages.map((_, index) => (
             <li
               key={index}
@@ -156,6 +179,7 @@ const CourseContent = () => {
       </div>
       <div className="flex flex-1 flex-col">
         <div className="p-4">
+          {/* renders current page content */}
           {pages[currentPageIndex] &&
             renderPageContent(pages[currentPageIndex])}
         </div>
@@ -169,6 +193,7 @@ const CourseContent = () => {
                 Previous
               </button>
             )}
+            {/* displays next button unless at final page, which displays complete course */}
             {currentPageIndex < pages.length - 1 ? (
               <button
                 onClick={handleNextPage}

@@ -1,3 +1,6 @@
+// Fully taken from MambaUI:
+// https://mambaui.com/components/feature, https://mambaui.com/components/testimonial, https://mambaui.com/components/faq
+// Just adapted to fit my site, else this is fully reused code
 import React from "react";
 
 const AboutPage = () => {
@@ -26,9 +29,7 @@ const AboutPage = () => {
               <div className="mt-12 space-y-12">
                 <div className="flex">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-md dark:bg-[#BFA76F] dark:text-gray-900">
-                      {/* SVG Icon */}
-                    </div>
+                    <div className="flex items-center justify-center w-12 h-12 rounded-md dark:bg-[#BFA76F] dark:text-gray-900"></div>
                   </div>
                   <div className="ml-4">
                     <h4 className="text-lg font-medium leading-6 dark:text-gray-50">

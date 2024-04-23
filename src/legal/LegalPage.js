@@ -1,3 +1,6 @@
+// Dummy legal page to make site seem more professional
+// All policy text generated through AI
+
 import React from "react";
 
 const LegalPage = () => {

@@ -1,3 +1,4 @@
+// Full Quiz component implementation
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -6,30 +7,32 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../redux/notificationSlice";
 
 const Quiz = () => {
-  const { quizId } = useParams();
+  const { quizId } = useParams(); //retrieving quiz id from url params
   const navigate = useNavigate();
   const location = useLocation();
   const returnPath = location.state?.returnPath || "/";
-  const [quiz, setQuiz] = useState(null);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
-  const [showScore, setShowScore] = useState(false);
+  const [quiz, setQuiz] = useState(null); //storing quiz data
+  const [currentQuestion, setCurrentQuestion] = useState(0); //track current question position
+  const [userAnswers, setUserAnswers] = useState([]); //store user answers
+  const [showScore, setShowScore] = useState(false); //toggle score visibility
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //function for redux actions like showing the notification text
 
+  //fetching quiz from server
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/quizzes/quiz/${quizId}`)
       .then((response) => {
-        setQuiz(response.data);
-        setUserAnswers(new Array(response.data.questions.length).fill(null));
+        setQuiz(response.data); //updating state with fetched quiz data
+        setUserAnswers(new Array(response.data.questions.length).fill(null)); //initialising array
       })
       .catch((err) => {
         setError("Failed to fetch quiz data");
         console.error("Error fetching quiz data:", err);
       });
-  }, [quizId]);
+  }, [quizId]); //dependency array, will fetch data whenever a different quiz is clicked on
 
+  //function to submit answer to server
   const submitQuizAnswers = async (quizId, answers) => {
     try {
       // No need to include userId if backend uses session or token authentication
@@ -39,7 +42,7 @@ const Quiz = () => {
         { withCredentials: true } // Ensures cookies are included with the request
       );
       const { xpAwarded, score } = response.data;
-
+      // displaying notification text
       dispatch(
         showNotification({
           message: `Quiz completed! XP Awarded: ${xpAwarded}`,
@@ -51,18 +54,20 @@ const Quiz = () => {
     }
   };
 
-  // Timer and quiz interaction logic
+  // setting up a timer with react-timer-hook
   const { seconds, minutes, pause } = useTimer({
     expiryTimestamp: new Date(
       new Date().setSeconds(new Date().getSeconds() + 300) // sets a 5-minute timer
     ),
     onExpire: () => {
-      setShowScore(true);
+      setShowScore(true); //score now visible after timer expires
       submitQuizAnswers(quizId, userAnswers); // Submit answers when the timer expires
-      pause(); // Ensure the timer is paused when the quiz ends
+      pause(); // timer pauses when quiz ends
     },
   });
 
+  //function to handle users answer selection
+  //AI generated code to make it smoother for user experience
   const handleAnswer = (option, index) => {
     const updatedAnswers = [...userAnswers];
     updatedAnswers[index] = option;
@@ -73,17 +78,20 @@ const Quiz = () => {
       setTimeout(() => setCurrentQuestion(nextQuestion), 300);
     } else {
       setShowScore(true);
-      pause();
-      submitQuizAnswers(quizId, updatedAnswers);
+      pause(); //timer paused
+      submitQuizAnswers(quizId, updatedAnswers); //submits quiz answers
     }
   };
 
+  //function to navigate between questions
   const navigateToNextPrev = (index) => {
     if (index >= 0 && index < quiz.questions.length) {
       setCurrentQuestion(index);
     }
   };
 
+  //function to show correct/incorrect answers at the end
+  //Help of AI generation to debug
   const renderAnswers = () =>
     quiz.questions.map((question, index) => (
       <div key={index} className="text-lg my-2">
@@ -106,6 +114,7 @@ const Quiz = () => {
     ));
 
   if (error) return <div>Error: {error}</div>;
+  //if quiz is still being fetched will display a loading spinner
   if (!quiz)
     return (
       <div
@@ -114,8 +123,10 @@ const Quiz = () => {
       ></div>
     );
 
+  //AI helped create the divs as usual
   return (
     <div className="bg-[#FFF7E0] min-h-screen flex flex-col items-center justify-center p-6">
+      {/* At end of Quiz */}
       {showScore ? (
         <>
           <h1 className="text-4xl font-bold text-[#5C3D2E] my-8">
@@ -140,6 +151,7 @@ const Quiz = () => {
         </>
       ) : (
         <>
+          {/* During Quiz */}
           <div className="text-center text-2xl font-bold py-2">
             Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
           </div>
@@ -181,7 +193,7 @@ const Quiz = () => {
               <button
                 onClick={() => {
                   setShowScore(true);
-                  pause(); // Stop the timer when the quiz is completed
+                  pause();
                 }}
                 className="bg-[#D4AF37] text-white py-2 px-6 rounded hover:bg-[#C9A567] mx-2 transition-colors"
               >

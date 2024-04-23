@@ -1,39 +1,73 @@
+// Displaying the 3 Plans and allow user to enroll to them
+// Adapted from https://mambaui.com/components/pricing
+
 import { React, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthModal from "./AuthModal";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../redux/notificationSlice"; //display notification message after an action
 
 const RoadmapPlans = () => {
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated); //checks if user is logged in
+  //manages modals, to open and close them
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // used to display the notification message with redux
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
   }, []);
 
+  //function to enroll user to a plan
   const handleEnroll = async (planId) => {
+    //if user is not logged, display the modal
     if (!isAuthenticated) {
       openModal();
       return;
     }
-
     try {
       await axios.post("/api/enroll", { planId }, { withCredentials: true });
-      alert(`Successfully enrolled in ${planId} plan.`);
-      navigate("/dashboard");
+      dispatch(
+        showNotification({
+          message: `Successfully enrolled in ${planId} plan.`,
+        })
+      );
+      navigate("/dashboard"); //user taken to dashboard once successfully enrolled
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        alert("You are already enrolled in this plan.");
-        console.log("Already enrolled");
-      } else if (error.response && error.response.status === 401) {
-        alert("You need to login to enroll in a plan.");
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            dispatch(
+              showNotification({
+                message: "You are already enrolled in this plan.",
+              })
+            );
+            console.log("Already enrolled");
+            break;
+
+          default:
+            console.error("Enrollment failed", error);
+            dispatch(
+              showNotification({
+                message:
+                  "An error occurred while trying to enroll. Please try again.",
+              })
+            );
+            break;
+        }
       } else {
         console.error("Enrollment failed", error);
-        alert("An error occurred while trying to enroll. Please try again.");
+        dispatch(
+          showNotification({
+            message:
+              "An error occurred while trying to enroll. Please try again.",
+          })
+        );
       }
     }
   };
@@ -102,7 +136,7 @@ const RoadmapPlans = () => {
             </button>
           </div>
 
-          {/* Existing Muslim Plan */}
+          {/* Next Steps Plan */}
           <div className="relative flex flex-col items-center p-8 border rounded-md bg-[#FAF0D7] border-[#E6C300] plan-card">
             <span className="absolute top-0 px-6 pt-1 pb-2 font-medium text-lg rounded-b-lg bg-[#1A365D] text-[#FFFAF0]">
               Next Steps Plan

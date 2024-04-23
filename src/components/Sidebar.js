@@ -1,7 +1,8 @@
+// Sidebar for use on smaller devices, acts as navigation point
+// slightly adapted from https://mambaui.com/components/sidebar
+// added additional functionality to serve my project
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import logoImage from "../assets/logo.png";
-
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 
@@ -13,13 +14,13 @@ const Sidebar = ({ isOpen, toggleSidebar, isAuthenticated }) => {
     toggleSidebar(false);
   };
 
+  //close sidebar if window is bigger than 768
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
         toggleSidebar(false);
       }
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [toggleSidebar]);
@@ -61,7 +62,7 @@ const Sidebar = ({ isOpen, toggleSidebar, isAuthenticated }) => {
           </button>
         </div>
         <div className="flex-shrink-0 flex items-center px-4 py-4">
-          <img src={logoImage} alt="Logo" className="h-14 w-auto" />
+          <img src={"/images/logo.png"} alt="Logo" className="h-14 w-auto" />
         </div>
         <nav className="mt-5 flex-shrink-0 h-full divide-y divide-gray-700 overflow-y-auto">
           <div className="px-2 space-y-1">
@@ -95,10 +96,11 @@ const Sidebar = ({ isOpen, toggleSidebar, isAuthenticated }) => {
               Contact
             </Link>
           </div>
-          {isAuthenticated ? (
+          {isAuthenticated ? ( //after user is logged in, will display these
             <>
               <div className="mt-6 pt-6 border-t border-gray-700">
                 <div className="px-2 space-y-1">
+                  {/* View Dashboard */}
                   <Link
                     to="/dashboard"
                     className="group flex items-center px-2 py-2 text-base font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700"
@@ -128,7 +130,7 @@ const Sidebar = ({ isOpen, toggleSidebar, isAuthenticated }) => {
                     </svg>
                     View Profile
                   </Link>
-
+                  {/* View Logout */}
                   <button
                     onClick={handleLogout}
                     className="group flex items-center px-2 py-2 text-base font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 w-full text-left"
@@ -151,6 +153,7 @@ const Sidebar = ({ isOpen, toggleSidebar, isAuthenticated }) => {
               </div>
             </>
           ) : (
+            //buttons displayed if not logged in
             <div className="mt-6 pt-6">
               <div className="px-2 space-y-1">
                 <Link

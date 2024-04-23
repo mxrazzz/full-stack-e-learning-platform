@@ -1,7 +1,6 @@
+// Footer page styling adapted from https://mambaui.com/components/footer
 import React from "react";
 import { Link } from "react-router-dom";
-
-import logoImage from "../assets/logo.png";
 
 const Footer = () => {
   return (
@@ -14,7 +13,7 @@ const Footer = () => {
           >
             <div className="flex items-center justify-center w-14 h-14 rounded-full">
               <img
-                src={logoImage}
+                src={"/images/logo.png"}
                 alt="Path to Islam Logo"
                 className="object-cover w-12 h-12 cursor-pointer"
               />

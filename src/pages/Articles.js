@@ -1,22 +1,26 @@
+// Fetching and displaying all articles from Strapi
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Articles = () => {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState([]); //storing articles that are fetched
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
+        // API will fetch all info with populate=* and destructuring it inside 'data'
         const { data } = await axios.get(
           "http://localhost:1337/api/articles?populate=*"
         );
+        //storing articles inside map with all necessary details
+        //AI helped debug and gave solution on how to successfully store it using a map
         const formattedArticles = data.data.map((article) => ({
           id: article.id,
           title: article.attributes.Title,
           summary: article.attributes.Summary,
-          // Use optional chaining to safely access nested properties
+          // used AI to fetch images from Strapi
           imageUrl: article.attributes.Image.data
             ? `http://localhost:1337${article.attributes.Image.data.attributes.url}`
             : process.env.PUBLIC_URL + "/images/not_found.png", // Use a default image from the public folder
@@ -30,6 +34,7 @@ const Articles = () => {
     fetchArticles();
   }, []);
 
+  // Used mixture of my own work and AI to smoothen overall layout
   return (
     <div className="bg-[#333333] p-6">
       <h2 className="text-4xl font-semibold text-white mb-4">All Articles</h2>
@@ -38,7 +43,7 @@ const Articles = () => {
           <div
             key={article.id}
             className="flex flex-col max-w-md rounded-md shadow-md overflow-hidden h-full cursor-pointer"
-            onClick={() => navigate(`/articles/${article.id}`)}
+            onClick={() => navigate(`/articles/${article.id}`)} //navigate to the article user clicked
           >
             <img
               src={article.imageUrl}

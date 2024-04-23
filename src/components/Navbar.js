@@ -1,31 +1,32 @@
+// Navbar styling adapted from https://mambaui.com/components/header
+// If page is resized, navbar is moved to a hamburger menu
+// Login/register buttons which disappear once user is logged in
+// Search feature is displayed but no functionality added
 import React, { useState, useEffect } from "react";
-import logoImage from "../assets/logo.png";
-
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-
 import { useSelector, useDispatch } from "react-redux";
+import Sidebar from "../components/Sidebar";
 import { logout } from "../redux/userSlice";
 
 function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { isAuthenticated, userData } = useSelector((state) => state.user);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false); //state to manage hamburger menu visibility
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // manage dropdown visibility after logged in
+  const { isAuthenticated, userData } = useSelector((state) => state.user); //ensure user is authenticated using redux data
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
     setIsDropdownOpen(false);
   };
+
+  //effect to close dropdown if clicked outside
   useEffect(() => {
     const closeDropdown = (event) => {
       if (!event.target.closest(".dropdown")) {
         setIsDropdownOpen(false);
       }
     };
-
     document.body.addEventListener("click", closeDropdown);
     return () => {
       document.body.removeEventListener("click", closeDropdown);
@@ -92,8 +93,11 @@ function Navbar() {
             aria-label="Back to homepage"
             className="flex items-center"
           >
-            <img src={logoImage} alt="Logo" className="w-auto h-24 md:h-24" />{" "}
-            {/* Adjust the height as needed */}
+            <img
+              src={"/images/logo.png"}
+              alt="Logo"
+              className="w-auto h-24 md:h-24"
+            />{" "}
           </Link>
           <div className="hidden lg:flex items-center space-x-4">
             <div className="relative">
@@ -126,7 +130,7 @@ function Navbar() {
             </div>
             {isAuthenticated ? (
               <div className="relative">
-                {/* User Info and Dropdown Toggle */}
+                {/* Dropdown Toggle after logged in, to display dashboard,view profile and logout */}
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
@@ -134,7 +138,6 @@ function Navbar() {
                   }}
                   className="cursor-pointer flex items-center space-x-2"
                 >
-                  {/* User Icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
@@ -195,6 +198,7 @@ function Navbar() {
                 )}
               </div>
             ) : (
+              /* Display buttons if user not logged in*/
               <div className="hidden lg:flex items-center space-x-4">
                 <Link
                   to="/login"
@@ -212,7 +216,7 @@ function Navbar() {
             )}
           </div>
 
-          <button
+          <button //hamburger menu
             className="p-4 lg:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             title="Open menu"
@@ -235,7 +239,8 @@ function Navbar() {
           </button>
         </div>
       </header>
-      <Sidebar
+
+      <Sidebar // sidebar functionality
         isOpen={isMenuOpen}
         toggleSidebar={() => setIsMenuOpen(false)}
         isAuthenticated={isAuthenticated}

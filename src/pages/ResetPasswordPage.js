@@ -1,23 +1,33 @@
-// ResetPasswordPage.js
+// component to reset user password, displayed after user presses forgot password and enters their email
 import React, { useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../redux/notificationSlice";
 
 const ResetPasswordPage = () => {
-  const [newPassword, setNewPassword] = useState("");
+  const [newPassword, setNewPassword] = useState(""); //state to store the new password
   const navigate = useNavigate();
-  const location = useLocation();
-  const { email, tempToken } = location.state;
+  const dispatch = useDispatch();
+  const location = useLocation(); //hook to access location state from previous page
+  const { email, tempToken } = location.state; //extracted email and token from VerificationCodePage
 
+  //handles form submission after button is pressed
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      //request sent to reset password
       await axios.post("http://localhost:5000/api/auth/reset-password", {
         email,
         tempToken,
         newPassword,
       });
-      alert("Your password has been reset successfully.");
+      //show notification to display successful reset
+      dispatch(
+        showNotification({
+          message: "Password reset successfully!",
+        })
+      );
       navigate("/login"); // Redirect to login page
     } catch (error) {
       alert("Failed to reset password.");
@@ -25,6 +35,8 @@ const ResetPasswordPage = () => {
     }
   };
 
+  //Mix of AI generation to fix visual issues
+  //handled input fields myself
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#FFF7E0]">
       <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 bg-white dark:bg-[#FFF7E0]">

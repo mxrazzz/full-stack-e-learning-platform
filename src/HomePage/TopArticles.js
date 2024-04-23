@@ -1,7 +1,8 @@
-// TopArticles.js
+// displaying the top Articles
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+//array to store 3 articles I want to display
 const articles = [
   {
     id: 5,
@@ -23,25 +24,25 @@ const articles = [
       "Here we will talk about reasons why people choose to embrace Islam and leave behind old lifestyles",
     imageUrl: "/images/why-islam-article.png",
   },
-  // Add more articles as needed
 ];
 const TopArticles = () => {
   const navigate = useNavigate();
 
   const onViewAll = () => {
-    navigate("/articles"); // Assuming you have a route set up for "/articles"
+    navigate("/articles"); //page for all articles
   };
+
+  //AI generated return statement, implemented navigation myself
   return (
     <div className="bg-[#333333] p-6">
       {" "}
-      {/* Dark gray background */}
       <h2 className="text-4xl font-semibold text-white mb-4">Top Articles</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {articles.map((article) => (
           <div
             key={article.id}
             className="flex flex-col max-w-sm rounded-md shadow-md overflow-hidden h-full cursor-pointer"
-            onClick={() => navigate(`/articles/${article.id}`)} // Navigate to article detail page
+            onClick={() => navigate(`/articles/${article.id}`)} // navigating to article content depending on id
           >
             <img
               src={article.imageUrl}
@@ -50,7 +51,6 @@ const TopArticles = () => {
             />
             <div className="flex flex-col flex-1 p-4 justify-between bg-[#004080]">
               {" "}
-              {/* Adjusted card content background */}
               <h3 className="text-xl font-semibold text-white">
                 {article.title}
               </h3>

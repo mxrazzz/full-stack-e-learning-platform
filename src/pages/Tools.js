@@ -1,32 +1,35 @@
+// Separate page component to display useful tools that redirect you to external websites
 import React from "react";
 
+//array to store tools data
 const toolsData = [
   {
     title: "Duas",
     description: "Find duas to reflect how you are feeling",
-    imageUrl: "../images/dua_card.png", // Placeholder image, replace with actual path
+    imageUrl: "../images/dua_card.png",
     link: "https://www.islamestic.com/i-am-feeling/",
   },
   {
     title: "Quran",
     description: "Read and listen to the Quran online.",
-    imageUrl: "../images/quran.png", // Placeholder image, replace with actual path
+    imageUrl: "../images/quran.png",
     link: "https://quran.com/en",
   },
   {
     title: "Library",
     description: "Explore a vast library of islamic books",
-    imageUrl: "../images/library.jpg", // Placeholder image, replace with actual path
+    imageUrl: "../images/library.jpg",
     link: "https://www.kalamullah.com/index.html",
   },
   {
     title: "Dhikr Counter",
     description: "A simple tool to count your Dhikr",
-    imageUrl: "/images/dhikr.png", // Placeholder image, replace with actual path
+    imageUrl: "/images/dhikr.png",
     link: "https://www.tasbih.org/",
   },
 ];
 
+//displaying the tool cards
 const Tools = () => {
   return (
     <div className="bg-[#333333] p-6">

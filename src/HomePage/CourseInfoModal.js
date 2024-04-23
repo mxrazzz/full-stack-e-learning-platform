@@ -1,9 +1,11 @@
+// When clicking on PopularCourses in homepage, this displays more information
 import React from "react";
 import ReactDOM from "react-dom";
 
 const CourseInfoModal = ({ isOpen, onClose, course }) => {
   if (!isOpen) return null;
 
+  //setting up modal styling here instead of inside return block, as sizing was not fixed and varied across each module
   const modalStyle = {
     width: "600px",
     maxHeight: "90vh",
@@ -18,6 +20,8 @@ const CourseInfoModal = ({ isOpen, onClose, course }) => {
     borderRadius: "8px",
   };
 
+  //rendered outside usual DOM hierarchy - wanted to experiment with this with a modal
+  //pulling data from course object, which is stored in Strapi backend
   return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center px-4">
       <div className="bg-white rounded-lg shadow-lg" style={modalStyle}>
@@ -34,7 +38,7 @@ const CourseInfoModal = ({ isOpen, onClose, course }) => {
         </div>
         <div className="p-4">
           <img
-            src={course.imageUrl || "path/to/default/image.png"}
+            src={course.imageUrl || "/images/not_found.png"}
             alt="Course"
             style={imageStyle}
           />

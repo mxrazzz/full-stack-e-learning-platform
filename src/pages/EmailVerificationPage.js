@@ -1,31 +1,34 @@
+//Component to verify email after pressing forgot password
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const VerificationCodePage = () => {
   // State to hold each digit of the OTP
-  const [otp, setOtp] = useState(Array(4).fill(""));
+  const [otp, setOtp] = useState(Array(4).fill("")); //state to store the 4 digit passcode
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
-  const { email } = location.state;
-  const [countdown, setCountdown] = useState(10);
+  const location = useLocation(); //hook to access location state
+  const { email } = location.state; //extracting the email entered from previous page
+  const [countdown, setCountdown] = useState(300); //setting a countdown timer of 5 secs for resending code
 
+  //AI generated function, struggled to handle form changes
   const handleChange = (element, index) => {
     if (!/^\d*$/.test(element.value)) return; // Only allow numeric input
     const newOtp = [...otp];
     newOtp[index] = element.value;
     setOtp(newOtp);
 
-    // Focus next input
+    // focuses on the next input field
     if (element.nextSibling && element.value) {
       element.nextSibling.focus();
     }
   };
 
+  //manages the countdown function for resending the code
   useEffect(() => {
-    let interval; // Declare interval outside to ensure it can be cleared later
+    let interval;
     if (countdown > 0) {
       interval = setInterval(() => {
         setCountdown((currentCountdown) => {
@@ -38,20 +41,21 @@ const VerificationCodePage = () => {
       }, 1000);
     }
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount or when countdown ends
+    return () => clearInterval(interval); // clears the interval when countdown ends
   }, [countdown]);
 
+  //function to resend verification code
   const resendCode = async () => {
     try {
       setLoading(true);
       // Specify the action type when resending the code
       await axios.post("http://localhost:5000/api/auth/resend-verification", {
         email,
-        action: "reset",
+        action: "reset", //specified action is register, as this API call can be used to reset password
       });
       setErrorMessage("");
       setLoading(false);
-      setCountdown(5); // Reset countdown
+      setCountdown(300); // resets countdown
     } catch (error) {
       console.error("Resend verification error:", error);
       setErrorMessage("Failed to resend verification code.");
@@ -59,12 +63,13 @@ const VerificationCodePage = () => {
     }
   };
 
+  //handles the form submission (when verify button is pressed)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const verificationCode = otp.join(""); //all 4 digits from form field are concatenated into a string
 
-    const verificationCode = otp.join("");
-
+    //request sent to make sure verification code entered by user is correct
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/verify-code",
@@ -74,6 +79,7 @@ const VerificationCodePage = () => {
         }
       );
       navigate("/reset-password", {
+        //will navigate user to reset their password once email is verified
         state: { email, tempToken: response.data.tempToken },
       });
     } catch (error) {
@@ -94,8 +100,10 @@ const VerificationCodePage = () => {
         <h2 className="mb-3 text-3xl font-semibold text-center text-[#5C3D2E]">
           Enter Verification Code
         </h2>
+
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="flex justify-between space-x-2">
+            {/* AI generated to debug issues with OTP code entering */}
             {otp.map((data, index) => (
               <input
                 key={index}
