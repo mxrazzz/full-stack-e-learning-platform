@@ -1,6 +1,5 @@
-// src/redux/notificationSlice.js
+//slice for managing notifications
 import { createSlice } from "@reduxjs/toolkit";
-
 export const notificationSlice = createSlice({
   name: "notification",
   initialState: {
@@ -8,6 +7,7 @@ export const notificationSlice = createSlice({
     message: "",
   },
   reducers: {
+    //reducer to show notification
     showNotification: (state, action) => {
       state.visible = true;
       state.message = action.payload.message;

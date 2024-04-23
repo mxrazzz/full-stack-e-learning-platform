@@ -1,5 +1,7 @@
+//managing user authentication state
 import { createSlice } from "@reduxjs/toolkit";
 
+//handling when a user logs in or logs out
 export const userSlice = createSlice({
   name: "user",
   initialState: {
