@@ -13,9 +13,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { hideNotification } from "./redux/notificationSlice";
 
 // Lazy loaded pages to optimize loading components
-const HomePage = lazy(() => import("./pages/HomePage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const ContactUs = lazy(() => import("./pages/ContactUs"));
+const HomePage = lazy(() => import("./pages/Navbar/HomePage"));
+const AboutPage = lazy(() => import("./pages/Navbar/AboutPage"));
+const ContactUs = lazy(() => import("./pages/Navbar/ContactUs"));
 const LegalPage = lazy(() => import("./legal/LegalPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
@@ -26,14 +26,18 @@ const NextStepsPlanPlan = lazy(() => import("./plans/NextStepsPlan"));
 const CourseContent = lazy(() => import("./plans/CourseContent"));
 const Articles = lazy(() => import("./pages/Articles"));
 const ArticleContent = lazy(() => import("./pages/ArticleContent"));
-const Tools = lazy(() => import("./pages/Tools"));
-const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
-const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
+const Tools = lazy(() => import("./pages/Navbar/Tools"));
+const ForgotPasswordPage = lazy(() =>
+  import("./pages/Authentication/ForgotPasswordPage")
+);
+const ResetPasswordPage = lazy(() =>
+  import("./pages/Authentication/ResetPasswordPage")
+);
 const VerificationCodePage = lazy(() =>
-  import("./pages/EmailVerificationPage")
+  import("./pages/Authentication/EmailVerificationPage")
 );
 const RegistrationVerificationPage = lazy(() =>
-  import("./pages/RegistrationVerificationPage")
+  import("./pages/Authentication/RegistrationVerificationPage")
 );
 const ViewProfile = lazy(() => import("./components/ViewProfile"));
 const Quiz = lazy(() => import("./plans/Quiz"));

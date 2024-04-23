@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { showNotification } from "../redux/notificationSlice";
+import { showNotification } from "../../redux/notificationSlice";
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState(""); //state to store the new password

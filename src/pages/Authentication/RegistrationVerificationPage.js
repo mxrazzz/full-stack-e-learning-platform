@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { showNotification } from "../redux/notificationSlice";
+import { showNotification } from "../../redux/notificationSlice";
 
 const RegistrationVerificationPage = () => {
   const [otp, setOtp] = useState(Array(4).fill("")); //state to store the 4 digit passcode

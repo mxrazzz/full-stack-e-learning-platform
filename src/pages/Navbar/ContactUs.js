@@ -3,7 +3,7 @@
 // Validation done by AI, as this page is not a main component, so to save time used AI
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { showNotification } from "../redux/notificationSlice";
+import { showNotification } from "../../redux/notificationSlice";
 
 const ContactUs = () => {
   //AI generated validation

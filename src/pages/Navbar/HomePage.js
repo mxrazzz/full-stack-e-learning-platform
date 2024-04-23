@@ -5,10 +5,10 @@ import React, { Suspense, lazy } from "react";
 
 //importing each section component for the Homepage with Lazy Loading
 
-const HeroSection = lazy(() => import("../HomePage/HeroSection")); // //displays the header/banner of the homepage
-const RoadmapPlans = lazy(() => import("../HomePage/RoadmapPlans")); //shows the available plans for the user to enroll in
-const PopularCourses = lazy(() => import("../HomePage/PopularCourses")); // shows a list of featured courses that are available inside the plans
-const TopArticles = lazy(() => import("../HomePage/TopArticles")); //shows the top articles available
+const HeroSection = lazy(() => import("../../HomePage/HeroSection")); // //displays the header/banner of the homepage
+const RoadmapPlans = lazy(() => import("../../HomePage/RoadmapPlans")); //shows the available plans for the user to enroll in
+const PopularCourses = lazy(() => import("../../HomePage/PopularCourses")); // shows a list of featured courses that are available inside the plans
+const TopArticles = lazy(() => import("../../HomePage/TopArticles")); //shows the top articles available
 
 function HomePage() {
   return (
