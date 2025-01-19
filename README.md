@@ -30,7 +30,8 @@ Follow these steps to set up PathToIslam on your local machine:
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/mxrazzz/islamic-e-learning-platform.git
-   cd PathToIslam ```
+   cd PathToIslam
+   ```
 2. **Set up the front-end**:
    ```bash
     cd client
